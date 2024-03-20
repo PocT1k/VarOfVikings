@@ -24,7 +24,7 @@
 using namespace std;
 
 
-int startMoney = 10000;
+int startMoney = 2500;
 
 int main() {
     setlocale(LC_ALL, "RU");

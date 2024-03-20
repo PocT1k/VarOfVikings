@@ -32,7 +32,7 @@ void printCommands();
 void menuStop();
 void menuClear();
 int editMoney();
-void printTeam(const vector<shared_ptr<BaseUnit>> units);
+void printTeam(const vector<shared_ptr<BaseUnit>> units, int team);
 shared_ptr<BaseUnit> randomUnit(int& startMoney);
 void startSimulation();
 
@@ -46,7 +46,7 @@ void printCommands() {
 }
 
 void menuStop() {
-    cout << endl << "Для продолжения работы нажмите ENTER";
+    cout << endl << "Для продолжения работы нажмите ENTER" << endl;
     char key;
     while (true) {
         key = _getch();
@@ -130,9 +130,25 @@ shared_ptr<BaseUnit> randomUnit(int& startMoney) {
     return nullptr;
 }
 
-void printTeam(const vector<shared_ptr<BaseUnit>> units) {
+void printTeam(const vector<shared_ptr<BaseUnit>> units, int team) {
+    cout << "  к" << team << ": ";
     for (const auto& unit : units) {
-        cout << unit->type << " ";
+        switch (unit->type) {
+        case 'l':
+            cout << "Лёгкий" << " "; break;
+        case 'm':
+            cout << "Средний" << " "; break;
+        case 'h':
+            cout << "Тяжёлый" << " "; break;
+        case 'a':
+            cout << "Лучник" << " "; break;
+        case 'p':
+            cout << "Хиллер" << " "; break;
+        case 'c':
+            cout << "Копимаг" << " "; break;
+        default:
+            break;
+        }
     }
     cout << "(" << units.size() << ")" << endl;
 }
@@ -164,8 +180,9 @@ void startSimulation() {
 
     menuClear();
     cout << "Комманы перед началом боя: " << endl;
-    printTeam(unitsTeam_1);
-    printTeam(unitsTeam_2);
+    printTeam(unitsTeam_1, 1);
+    printTeam(unitsTeam_2, 2);
+    menuStop();
 
     while (lenTeam_1 != 0 && lenTeam_2 != 0) {
         lenTeam_1--;

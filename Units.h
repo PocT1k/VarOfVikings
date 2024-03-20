@@ -56,7 +56,7 @@ public:
 	}
 };
 
- //“€жЄлый воин
+//“€жЄлый воин
 class HigtUnit : public BaseUnit {
 public:
 	HigtUnit() {
