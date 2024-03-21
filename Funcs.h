@@ -184,10 +184,73 @@ void startSimulation() {
     printTeam(unitsTeam_2, 2);
     menuStop();
 
+    int fullDamage = 0;
+    int fullHeal = 0;
+    int index = 0;
+    int motion = 0;
+
+    //Цикл боя
     while (lenTeam_1 != 0 && lenTeam_2 != 0) {
-        lenTeam_1--;
-        lenTeam_2--;
-        cout << lenTeam_1 << " " << lenTeam_2 << endl;
+        //Ход 1 команды
+        {
+            for (auto unit : unitsTeam_1) {
+                switch (unit->type) {
+                case 'l':
+                case 'm':
+                case 'h':
+                case 'a':
+                case 'p':
+                    if (unit->lenUse >= index) {
+                        if (unit->type == 'p') {
+                            unit->chanceUse * 100 > rand() % 100 ? fullHeal += unit->damage : fullHeal += 0;
+                        }
+                        else {
+                            fullDamage += unit->damage;
+                        }
+                    }
+                    break;
+                case 'c':
+                    break;
+                default:
+                    break;
+                }
+
+                index++;
+            }
+            unitsTeam_2[0]->takeDamage(fullDamage); //Применение дамага
+            unitsTeam_1[0]->takeHealth(fullHeal); //Применение хила
+
+            index = 0;
+            fullDamage = 0;
+            fullHeal = 0;
+
+            //Удаление бойца
+            if (!unitsTeam_2[0]->getHealth()) {
+                unitsTeam_2.erase(unitsTeam_2.begin());
+                lenTeam_2--;
+            }
+        }
+
+        //Ход 2 команды
+        {
+            unitsTeam_1[0]->takeDamage(fullDamage); //Применение дамага
+            unitsTeam_2[0]->takeHealth(fullHeal); //Применение хила
+
+            index = 0;
+            fullDamage = 0;
+            fullHeal = 0;
+
+            //Удаление бойца
+            if (!unitsTeam_1[0]->getHealth()) {
+                unitsTeam_1.erase(unitsTeam_1.begin());
+                lenTeam_1--;
+            }
+        }
+
+        //Результаты
+        cout << ++motion << " ход: " << endl;
+        printTeam(unitsTeam_1, 1);
+        printTeam(unitsTeam_2, 2);
     }
 }
 

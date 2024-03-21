@@ -18,14 +18,27 @@ class MagicUnit; //-c Копирующий воин
 
 //Базовый воин
 class BaseUnit {
+protected:
+	int health; //здоровье
+	int MAX_HP; //переменная максимального здоровья
 public:
 	char type = 'b';
-	int health; //здоровье
-	int MAX_HP; //переменная максимального здоровьч
-	int armor; //броня
-	int damage; //урон
+	int armor = 0; //броня
+	int damage = 0; //урон
 	float chanceDodge = 0; //шанс уклонения 1 = dodge
 	int price; //цена
+	int lenUse = 0;
+	float chanceUse;
+
+	void takeHealth(int health) {
+		this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
+	}
+
+	void takeDamage(int damage) {
+		this->health - damage < 0 ? health = 0 : this->health -= damage;
+	}
+
+	int getHealth() { return this->health; }
 };
 
 //Лёгкий воин
@@ -35,7 +48,6 @@ public:
 		type = 'l';
 		health = 25;
 		MAX_HP = health;
-		armor = 0;
 		damage = 30;
 		chanceDodge = 0.5;
 		price = 100;
@@ -65,7 +77,6 @@ public:
 		MAX_HP = health;
 		armor = 25;
 		damage = 95;
-		chanceDodge = 0;
 		price = 350;
 	}
 };
@@ -77,12 +88,11 @@ public:
 		type = 'a';
 		health = 25;
 		MAX_HP = health;
-		armor = 0;
 		damage = 30;
 		chanceDodge = 0.25;
 		price = 200;
+		lenUse = 2;
 	}
-	int lenUse = 2;
 };
 
 //Лечащий воин
@@ -92,13 +102,11 @@ public:
 		type = 'p';
 		health = 25;
 		MAX_HP = health;
-		armor = 0;
-		damage = -20;
-		chanceDodge = 0;
+		damage = 20;
 		price = 150;
+		lenUse = 2;
+		chanceUse = 0.5;
 	}
-	int lenUse = 2;
-	float chanceUse = 0.5;
 };
 
 //Копирующий воин
@@ -108,13 +116,10 @@ public:
 		type = 'c';
 		health = 25;
 		MAX_HP = health;
-		armor = 0;
-		damage = 0;
-		chanceDodge = 0;
 		price = 400;
+		lenUse = 1;
+		chanceUse = 0.125;
 	}
-	int lenUse = 1;
-	float chanceUse = 0.125;
 };
 
 
