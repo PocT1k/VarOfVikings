@@ -185,14 +185,14 @@ void startSimulation() {
     menuStop();
 
     int fullDamage = 0;
-    int fullHeal = 0;
+    int fullHealth = 0;
     int index = 0;
     int motion = 0;
 
     //Цикл боя
     while (lenTeam_1 != 0 && lenTeam_2 != 0) {
         //Ход 1 команды
-        {
+        if (!unitsTeam_1.empty() && !unitsTeam_2.empty()) {
             for (auto unit : unitsTeam_1) {
                 switch (unit->type) {
                 case 'l':
@@ -202,7 +202,7 @@ void startSimulation() {
                 case 'p':
                     if (unit->lenUse >= index) {
                         if (unit->type == 'p') {
-                            unit->chanceUse * 100 > rand() % 100 ? fullHeal += unit->damage : fullHeal += 0;
+                            unit->chanceUse * 100 > rand() % 100 ? fullHealth += unit->damage : fullHealth; //Шанс хила
                         }
                         else {
                             fullDamage += unit->damage;
@@ -218,11 +218,11 @@ void startSimulation() {
                 index++;
             }
             unitsTeam_2[0]->takeDamage(fullDamage); //Применение дамага
-            unitsTeam_1[0]->takeHealth(fullHeal); //Применение хила
+            unitsTeam_1[0]->takeHealth(fullHealth); //Применение хила
 
             index = 0;
             fullDamage = 0;
-            fullHeal = 0;
+            fullHealth = 0;
 
             //Удаление бойца
             if (!unitsTeam_2[0]->getHealth()) {
@@ -232,13 +232,37 @@ void startSimulation() {
         }
 
         //Ход 2 команды
-        {
+        if (!unitsTeam_1.empty() && !unitsTeam_2.empty()) {
+            for (auto unit : unitsTeam_2) {
+                switch (unit->type) {
+                case 'l':
+                case 'm':
+                case 'h':
+                case 'a':
+                case 'p':
+                    if (unit->lenUse >= index) {
+                        if (unit->type == 'p') {
+                            unit->chanceUse * 100 > rand() % 100 ? fullHealth += unit->damage : fullHealth += 0; //Шанс хила
+                        }
+                        else {
+                            fullDamage += unit->damage;
+                        }
+                    }
+                    break;
+                case 'c':
+                    break;
+                default:
+                    break;
+                }
+
+                index++;
+            }
             unitsTeam_1[0]->takeDamage(fullDamage); //Применение дамага
-            unitsTeam_2[0]->takeHealth(fullHeal); //Применение хила
+            unitsTeam_2[0]->takeHealth(fullHealth); //Применение хила
 
             index = 0;
             fullDamage = 0;
-            fullHeal = 0;
+            fullHealth = 0;
 
             //Удаление бойца
             if (!unitsTeam_1[0]->getHealth()) {
@@ -252,6 +276,8 @@ void startSimulation() {
         printTeam(unitsTeam_1, 1);
         printTeam(unitsTeam_2, 2);
     }
+
+    cout << endl << "Бой завершён, победила команда " << (unitsTeam_1.empty() ? 2 : 1) << endl;
 }
 
 

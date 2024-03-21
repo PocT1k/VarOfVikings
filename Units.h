@@ -35,10 +35,12 @@ public:
 	}
 
 	void takeDamage(int damage) {
-		this->health - damage < 0 ? health = 0 : this->health -= damage;
+		damage -= armor;
+		chanceDodge * 100 > rand() % 100 ? damage = 0 : damage; //Шанс промаха
+		health - damage < 0 ? health = 0 : health -= damage;
 	}
 
-	int getHealth() { return this->health; }
+	int getHealth() { return health; }
 };
 
 //Лёгкий воин
