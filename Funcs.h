@@ -60,7 +60,7 @@ void menuStop() {
 }
 
 void menuClear() {
-    //system("CLS");
+    system("CLS");
 }
 
 void editMoney() {
@@ -93,7 +93,6 @@ void editMoney() {
     printCommands();
     startMoney = res;
 }
-
 
 void startSimulation() {
     Team team1(1);

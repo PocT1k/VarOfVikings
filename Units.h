@@ -2,7 +2,7 @@
 #ifndef VAROFVIKINGS_UNITS
 #define VAROFVIKINGS_UNITS
 
-//#include <iostream>
+#include <string>
 
 
 extern int startMoney;
