@@ -15,25 +15,19 @@
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
 
-#include <Windows.h>
+#include <windows.h>
 #include <iostream>
 
 #include "Funcs.h"
-
-using namespace std;
 
 
 int startMoney = 2500;
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
-    setlocale(LC_ALL, "Russian");
     system("chcp 65001 > nul");
-
-    //SetConsoleOutputCP(CP_UTF8);
-    //SetConsoleCP(CP_UTF8);
-    //system("chcp 1251>nul");
     srand(time(nullptr));
     SetConsoleTitle(L"VarOfVikings");
 
@@ -61,6 +55,10 @@ int main() {
         default:
             break;
         }
+
+        menuStop();
+        menuClear();
+        printCommands();
     }
 
 	return 0;
