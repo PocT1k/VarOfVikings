@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef VAROFVIKINGS_TEAM
 #define VAROFVIKINGS_TEAM
 

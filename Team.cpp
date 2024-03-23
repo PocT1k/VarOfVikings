@@ -1,4 +1,4 @@
-#include "Team.h"
+﻿#include "Team.h"
 
 
 //Для определения всех цен

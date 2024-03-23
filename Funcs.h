@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef VAROFVIKINGS_FUNCS
 #define VAROFVIKINGS_FUNCS
 
