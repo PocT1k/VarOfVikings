@@ -28,7 +28,7 @@ public:
 	char type = 'b';
 	int armor = 0; //броня
 	int damage = 0; //урон
-	int medication = 0; //Лечение
+	int medication = 0; //лечение
 	float chanceDodge = 0; //шанс уклонения 1 = dodge
 	int price; //цена
 	int lenDamage = 0; //Расстояние использования урона
