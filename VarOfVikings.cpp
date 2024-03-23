@@ -11,14 +11,13 @@
 * Modifyed by    :                                           *
 * Lit sourse     :                                           *
 * Created        : 19/03/24                                  *
-* Last Revision  : 20/03/24                                  *
+* Last Revision  : 23/03/24                                  *
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
 
 #include <Windows.h>
 #include <iostream>
 
-#include "Units.h"
 #include "Funcs.h"
 
 using namespace std;
@@ -27,10 +26,10 @@ using namespace std;
 int startMoney = 2500;
 
 int main() {
-    setlocale(LC_ALL, "RU");
+    setlocale(LC_ALL, "Russian");
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
-    system("chcp 1251>nul");
+    //system("chcp 1251>nul");
     srand(time(nullptr));
     SetConsoleTitle(L"VarOfVikings");
 
@@ -47,10 +46,12 @@ int main() {
             run = 0;
             break;
         case k1:
-            startSimulation();
+            while (true) {
+                startSimulation();
+            }
             break;
         case k2:
-            startMoney = editMoney();
+            editMoney();
             break;
         default:
             break;

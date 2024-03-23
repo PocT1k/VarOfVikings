@@ -18,12 +18,18 @@
     <ClCompile Include="VarOfVikings.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Team.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Units.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Funcs.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Team.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,8 @@
 //#include <iostream>
 
 
+extern int startMoney;
+
 class BaseUnit; //-b Базовый воин
 
 class LowUnit; //-l Лёгкий воин
@@ -25,10 +27,12 @@ public:
 	char type = 'b';
 	int armor = 0; //броня
 	int damage = 0; //урон
+	int medication = 0; //Лечение
 	float chanceDodge = 0; //шанс уклонения 1 = dodge
 	int price; //цена
-	int lenUse = 0;
-	float chanceUse;
+	int lenDamage = 0; //Расстояние использования урона
+	int lenUse = 0; //Расстояние использования способностей
+	float chanceUse = 1;
 
 	void takeHealth(int health) {
 		this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
@@ -36,7 +40,7 @@ public:
 
 	void takeDamage(int damage) {
 		damage -= armor;
-		chanceDodge * 100 > rand() % 100 ? damage = 0 : damage; //Шанс промаха
+		chanceDodge * 100 > rand() % 100 ? damage = 0 : false; //Шанс промаха
 		health - damage < 0 ? health = 0 : health -= damage;
 	}
 
@@ -48,11 +52,18 @@ class LowUnit : public BaseUnit {
 public:
 	LowUnit() {
 		type = 'l';
+
 		health = 25;
-		MAX_HP = health;
+		armor = 0;
 		damage = 30;
+		medication = 0;
 		chanceDodge = 0.5;
+		lenDamage = 0;
+		lenUse = 0;
+		chanceUse = 1;
+
 		price = 100;
+		MAX_HP = health;
 	}
 };
 
@@ -61,12 +72,18 @@ class MediumUnit : public BaseUnit {
 public:
 	MediumUnit() {
 		type = 'm';
+
 		health = 50;
-		MAX_HP = health;
 		armor = 5;
 		damage = 55;
+		medication = 0;
 		chanceDodge = 0.25;
+		lenDamage = 0;
+		lenUse = 0;
+		chanceUse = 1;
+
 		price = 250;
+		MAX_HP = health;
 	}
 };
 
@@ -75,11 +92,18 @@ class HigtUnit : public BaseUnit {
 public:
 	HigtUnit() {
 		type = 'h';
+
 		health = 100;
-		MAX_HP = health;
 		armor = 25;
 		damage = 95;
+		medication = 0;
+		chanceDodge = 0;
+		lenDamage = 0;
+		lenUse = 0;
+		chanceUse = 1;
+
 		price = 350;
+		MAX_HP = health;
 	}
 };
 
@@ -88,12 +112,18 @@ class ArcherUnit : public BaseUnit {
 public:
 	ArcherUnit() {
 		type = 'a';
+
 		health = 25;
-		MAX_HP = health;
+		armor = 0;
 		damage = 30;
+		medication = 0;
 		chanceDodge = 0.25;
+		lenDamage = 2;
+		lenUse = 0;
+		chanceUse = 1;
+
 		price = 200;
-		lenUse = 2;
+		MAX_HP = health;
 	}
 };
 
@@ -102,12 +132,18 @@ class HillerUnit : public BaseUnit {
 public:
 	HillerUnit() {
 		type = 'p';
+
 		health = 25;
-		MAX_HP = health;
-		damage = 20;
+		armor = 0;
+		damage = 30;
+		medication = 25;
+		chanceDodge = 0;
+		lenDamage = 0;
+		lenUse = 1;
+		chanceUse = 0.25;
+
 		price = 150;
-		lenUse = 2;
-		chanceUse = 0.5;
+		MAX_HP = health;
 	}
 };
 
@@ -116,11 +152,20 @@ class MagicUnit : public BaseUnit {
 public:
 	MagicUnit() {
 		type = 'c';
+
 		health = 25;
-		MAX_HP = health;
-		price = 400;
+		armor = 0;
+		damage = 30;
+		medication = 0;
+		chanceDodge = 0;
+		lenDamage = 0;
 		lenUse = 1;
-		chanceUse = 0.125;
+		chanceUse = 1.0 / (startMoney / 250); //2500 sM -> 0.1, 25000 sM -> 0.01
+		chanceUse > 0.875 ? chanceUse = 0.875 : false; /*Не даём шансу копирования стать слишком большим при малых деньгах
+		и делаем его маленьким при большом количестве денег*/
+
+		price = 400;
+		MAX_HP = health;
 	}
 };
 

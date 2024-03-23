@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Team.cpp" />
     <ClCompile Include="VarOfVikings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Funcs.h" />
+    <ClInclude Include="Team.h" />
     <ClInclude Include="Units.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
