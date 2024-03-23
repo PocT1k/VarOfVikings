@@ -85,6 +85,8 @@ void Team::print() {
 }
 
 void Team::move(Team& enemies) {
+    if (len == 0 || enemies.len == 0) { return; } //ѕроверка на наличие воинов в команде
+
     int fullDamage = 0;
     int fullHealth = 0;
     bool copy = false;

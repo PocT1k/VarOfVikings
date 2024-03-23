@@ -99,29 +99,6 @@ void startSimulation() {
     Team team1(1);
     Team team2(2);
 
-    //int moneyTeam_1 = startMoney;
-    //int moneyTeam_2 = startMoney;
-    //int lenTeam_1 = 0;
-    //int lenTeam_2 = 0;
-    //vector<shared_ptr<BaseUnit>> unitsTeam_1;
-    //vector<shared_ptr<BaseUnit>> unitsTeam_2;
-    
-    ////Заполнение войск
-    //while (moneyTeam_1 >= minPrice) {
-    //    shared_ptr<BaseUnit> tempUnit = randomUnit(moneyTeam_1);
-    //    if (tempUnit != nullptr) {
-    //        lenTeam_1++;
-    //        unitsTeam_1.push_back(tempUnit);
-    //    }
-    //}
-    //while (moneyTeam_2 >= minPrice) {
-    //    shared_ptr<BaseUnit> tempUnit = randomUnit(moneyTeam_2);
-    //    if (tempUnit != nullptr) {
-    //        lenTeam_2++;
-    //        unitsTeam_2.push_back(tempUnit);
-    //    }
-    //}
-
     menuClear();
     cout << "Комманы перед началом боя: " << endl;
     team1.print();

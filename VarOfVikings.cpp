@@ -46,9 +46,7 @@ int main() {
             run = 0;
             break;
         case k1:
-            while (true) {
-                startSimulation();
-            }
+            startSimulation();
             break;
         case k2:
             editMoney();
