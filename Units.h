@@ -8,7 +8,7 @@
 extern int startMoney;
 
 
-class BaseUnit; //-b Базовый воин
+class IBaseUnit; //-b Базовый воин
 
 class LowUnit; //-l Лёгкий воин
 class MediumUnit; //-m Среднйи воин
@@ -20,7 +20,7 @@ class MagicUnit; //-c Копирующий воин
 
 
 //Базовый воин
-class BaseUnit {
+class IBaseUnit {
 protected:
 	int health; //здоровье
 	int MAX_HP; //переменная максимального здоровья
@@ -49,7 +49,7 @@ public:
 };
 
 //Лёгкий воин
-class LowUnit : public BaseUnit {
+class LowUnit : public IBaseUnit {
 public:
 	LowUnit() {
 		type = 'l';
@@ -69,7 +69,7 @@ public:
 };
 
 //Среднйи воин
-class MediumUnit : public BaseUnit {
+class MediumUnit : public IBaseUnit {
 public:
 	MediumUnit() {
 		type = 'm';
@@ -89,7 +89,7 @@ public:
 };
 
 //Тяжёлый воин
-class HigtUnit : public BaseUnit {
+class HigtUnit : public IBaseUnit {
 public:
 	HigtUnit() {
 		type = 'h';
@@ -109,7 +109,7 @@ public:
 };
 
 //Воин лучник
-class ArcherUnit : public BaseUnit {
+class ArcherUnit : public IBaseUnit {
 public:
 	ArcherUnit() {
 		type = 'a';
@@ -129,7 +129,7 @@ public:
 };
 
 //Лечащий воин
-class HillerUnit : public BaseUnit {
+class HillerUnit : public IBaseUnit {
 public:
 	HillerUnit() {
 		type = 'p';
@@ -149,7 +149,7 @@ public:
 };
 
 //Копирующий воин
-class MagicUnit : public BaseUnit {
+class MagicUnit : public IBaseUnit {
 public:
 	MagicUnit() {
 		type = 'c';

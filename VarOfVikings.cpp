@@ -51,6 +51,9 @@ int main() {
         case k2:
             editMoney();
             break;
+        case k3:
+            editMoney();
+            break;
         default:
             break;
         }

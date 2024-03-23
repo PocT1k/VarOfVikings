@@ -97,6 +97,8 @@ void editMoney() {
     startMoney = res;
 }
 
+void 123();
+
 void startSimulation() {
     Team team1(1);
     Team team2(2);

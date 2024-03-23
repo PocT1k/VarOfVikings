@@ -8,6 +8,7 @@ HigtUnit hu;
 ArcherUnit au;
 HillerUnit pu;
 MagicUnit cu;
+IBaseUnit* unitsArr[6] = { &lu, &mu, &hu, &au, &pu, &cu };
 int prices[6] = { lu.price, mu.price, hu.price, au.price, pu.price, cu.price };
 int minPrice = *std::min_element(prices, prices + 6); //Нахождение минимальной цены
 
@@ -18,7 +19,7 @@ Team::Team(int number) {
 
     //Заполнение войск
     while (money >= minPrice) {
-        shared_ptr<BaseUnit> tempUnit = randomUnit();
+        shared_ptr<IBaseUnit> tempUnit = randomUnit();
         if (tempUnit != nullptr) {
             units.push_back(tempUnit);
             len++;
@@ -26,7 +27,7 @@ Team::Team(int number) {
     }
 }
 
-shared_ptr<BaseUnit> Team::randomUnit() {
+shared_ptr<IBaseUnit> Team::randomUnit() {
     int i = rand() % 6;
 
     switch (i) {
