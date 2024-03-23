@@ -1,7 +1,7 @@
 #include "Team.h"
 
 
-//Для определения всех цен
+//Р”Р»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РІСЃРµС… С†РµРЅ
 LowUnit lu;
 MediumUnit mu;
 HigtUnit hu;
@@ -10,14 +10,14 @@ HillerUnit pu;
 MagicUnit cu;
 IBaseUnit* unitsArr[6] = { &lu, &mu, &hu, &au, &pu, &cu };
 int prices[6] = { lu.price, mu.price, hu.price, au.price, pu.price, cu.price };
-int minPrice = *std::min_element(prices, prices + 6); //Нахождение минимальной цены
+int minPrice = *std::min_element(prices, prices + 6); //РќР°С…РѕР¶РґРµРЅРёРµ РјРёРЅРёРјР°Р»СЊРЅРѕР№ С†РµРЅС‹
 
 
 Team::Team(int number) {
     this->number = number;
     money = startMoney;
 
-    //Заполнение войск
+    //Р—Р°РїРѕР»РЅРµРЅРёРµ РІРѕР№СЃРє
     while (money >= minPrice) {
         shared_ptr<IBaseUnit> tempUnit = randomUnit();
         if (tempUnit != nullptr) {
@@ -63,21 +63,21 @@ shared_ptr<IBaseUnit> Team::randomUnit() {
 }
 
 void Team::print() {
-    cout << "  к" << number << ": ";
+    cout << "  Рє" << number << ": ";
     for (const auto& unit : units) {
         switch (unit->type) {
         case 'l':
-            cout << "Лёгкий" << " "; break;
+            cout << "Р›С‘РіРєРёР№" << " "; break;
         case 'm':
-            cout << "Средний" << " "; break;
+            cout << "РЎСЂРµРґРЅРёР№" << " "; break;
         case 'h':
-            cout << "Тяжёлый" << " "; break;
+            cout << "РўСЏР¶С‘Р»С‹Р№" << " "; break;
         case 'a':
-            cout << "Лучник" << " "; break;
+            cout << "Р›СѓС‡РЅРёРє" << " "; break;
         case 'p':
-            cout << "Хиллер" << " "; break;
+            cout << "РҐРёР»Р»РµСЂ" << " "; break;
         case 'c':
-            cout << "Копимаг" << " "; break;
+            cout << "РљРѕРїРёРјР°Рі" << " "; break;
         default:
             break;
         }
@@ -86,44 +86,44 @@ void Team::print() {
 }
 
 void Team::move(Team& enemies) {
-    if (len == 0 || enemies.len == 0) { return; } //Проверка на наличие воинов в команде
+    if (len == 0 || enemies.len == 0) { return; } //РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РІРѕРёРЅРѕРІ РІ РєРѕРјР°РЅРґРµ
 
     int fullDamage = 0;
     int fullHealth = 0;
     bool copy = false;
     int index = 0;
 
-    for (auto unit : units) { //Первый фигарит первого
-        if (unit->lenDamage >= index) { //Применение дамага если позволяет расстояние
+    for (auto unit : units) { //РџРµСЂРІС‹Р№ С„РёРіР°СЂРёС‚ РїРµСЂРІРѕРіРѕ
+        if (unit->lenDamage >= index) { //РџСЂРёРјРµРЅРµРЅРёРµ РґР°РјР°РіР° РµСЃР»Рё РїРѕР·РІРѕР»СЏРµС‚ СЂР°СЃСЃС‚РѕСЏРЅРёРµ
             fullDamage += unit->damage;
         }
 
-        if (unit->type == 'p') { //Дополнительно ходят хиллеры
+        if (unit->type == 'p') { //Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ С…РѕРґСЏС‚ С…РёР»Р»РµСЂС‹
             if (unit->lenUse >= index) {
-                unit->chanceUse * 100 > rand() % 100 ? fullHealth += unit->medication : false; //Шанс хила
+                unit->chanceUse * 100 > rand() % 100 ? fullHealth += unit->medication : false; //РЁР°РЅСЃ С…РёР»Р°
             }
         }
         index++;
     }
     index = 0;
 
-    enemies.units[0]->takeDamage(fullDamage); //Применение дамага
-    units[0]->takeHealth(fullHealth); //Применение хила
+    enemies.units[0]->takeDamage(fullDamage); //РџСЂРёРјРµРЅРµРЅРёРµ РґР°РјР°РіР°
+    units[0]->takeHealth(fullHealth); //РџСЂРёРјРµРЅРµРЅРёРµ С…РёР»Р°
     fullDamage = 0;
     fullHealth = 0;
 
-    for (index = 0; index < len; index++) { //Ходят маги
+    for (index = 0; index < len; index++) { //РҐРѕРґСЏС‚ РјР°РіРё
         auto unit = units[index];
         if (unit->type == 'c') {
-            for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом и ищем лёгкого
-                if (i == index || i < 0 || i > len - 1) { continue; } //Проверка на выход массива
-                if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не находили
-                    copy = unit->chanceUse * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
+            for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //РџСЂРѕРІРµСЂСЏРµРј РІРѕРёРЅРѕРІ СЂСЏРґРѕРј Рё РёС‰РµРј Р»С‘РіРєРѕРіРѕ
+                if (i == index || i < 0 || i > len - 1) { continue; } //РџСЂРѕРІРµСЂРєР° РЅР° РІС‹С…РѕРґ РјР°СЃСЃРёРІР°
+                if (!copy && units[i]->type == 'l') { //Р•СЃР»Рё РЅР°С€Р»Рё Р›С‘РіРєРѕРіРѕ РІРѕРёРЅР° СЂСЏРґРѕРј Рё СЂР°РЅСЊС€Рµ РЅРµ РЅР°С…РѕРґРёР»Рё
+                    copy = unit->chanceUse * 10000 > rand() % 10000 ? true : false; //РџСЂРѕРєР°РµРј С€Р°РЅСЃ РЅР° РєРѕРїРёСЂРѕРІР°РЅРёРµ
                 }
             }
-            if (copy) { //Копируем и вставляем в случае удачи
+            if (copy) { //РљРѕРїРёСЂСѓРµРј Рё РІСЃС‚Р°РІР»СЏРµРј РІ СЃР»СѓС‡Р°Рµ СѓРґР°С‡Рё
                 auto position = units.begin() + index;
-                units.insert(position + (rand() % 2 ? 1 : 0), make_shared<LowUnit>()); //Вставка перед или после мага
+                units.insert(position + (rand() % 2 ? 1 : 0), make_shared<LowUnit>()); //Р’СЃС‚Р°РІРєР° РїРµСЂРµРґ РёР»Рё РїРѕСЃР»Рµ РјР°РіР°
                 len++;
                 index++;
             }
@@ -132,7 +132,7 @@ void Team::move(Team& enemies) {
     }
     index = 0;
 
-    //Удаление бойца
+    //РЈРґР°Р»РµРЅРёРµ Р±РѕР№С†Р°
     if (!enemies.units[0]->getHealth()) {
         enemies.units.erase(enemies.units.begin());
         enemies.len--;

@@ -8,31 +8,31 @@
 extern int startMoney;
 
 
-class IBaseUnit; //-b ¡‡ÁÓ‚˚È ‚ÓËÌ
+class IBaseUnit; //-b –ë–∞–∑–æ–≤—ã–π –≤–æ–∏–Ω
 
-class LowUnit; //-l À∏„ÍËÈ ‚ÓËÌ
-class MediumUnit; //-m —Â‰ÌÈË ‚ÓËÌ
-class HigtUnit; //-h “ˇÊ∏Î˚È ‚ÓËÌ
-class ArcherUnit; //-a ¬ÓËÌ ÎÛ˜ÌËÍ
+class LowUnit; //-l –õ—ë–≥–∫–∏–π –≤–æ–∏–Ω
+class MediumUnit; //-m –°—Ä–µ–¥–Ω–π–∏ –≤–æ–∏–Ω
+class HigtUnit; //-h –¢—è–∂—ë–ª—ã–π –≤–æ–∏–Ω
+class ArcherUnit; //-a –í–æ–∏–Ω –ª—É—á–Ω–∏–∫
 
-class HillerUnit; //-p ÀÂ˜‡˘ËÈ ‚ÓËÌ
-class MagicUnit; //-c  ÓÔËÛ˛˘ËÈ ‚ÓËÌ
+class HillerUnit; //-p –õ–µ—á–∞—â–∏–π –≤–æ–∏–Ω
+class MagicUnit; //-c –ö–æ–ø–∏—Ä—É—é—â–∏–π –≤–æ–∏–Ω
 
 
-//¡‡ÁÓ‚˚È ‚ÓËÌ
+//–ë–∞–∑–æ–≤—ã–π –≤–æ–∏–Ω
 class IBaseUnit {
 protected:
-	int health; //Á‰ÓÓ‚¸Â
-	int MAX_HP; //ÔÂÂÏÂÌÌ‡ˇ Ï‡ÍÒËÏ‡Î¸ÌÓ„Ó Á‰ÓÓ‚¸ˇ
+	int health; //–∑–¥–æ—Ä–æ–≤—å–µ
+	int MAX_HP; //–ø–µ—Ä–µ–º–µ–Ω–Ω–∞—è –º–∞–∫—Å–∏–º–∞–ª—å–Ω–æ–≥–æ –∑–¥–æ—Ä–æ–≤—å—è
 public:
 	char type = 'b';
-	int armor = 0; //·ÓÌˇ
-	int damage = 0; //ÛÓÌ
-	int medication = 0; //ÀÂ˜ÂÌËÂ
-	float chanceDodge = 0; //¯‡ÌÒ ÛÍÎÓÌÂÌËˇ 1 = dodge
-	int price; //ˆÂÌ‡
-	int lenDamage = 0; //–‡ÒÒÚÓˇÌËÂ ËÒÔÓÎ¸ÁÓ‚‡ÌËˇ ÛÓÌ‡
-	int lenUse = 0; //–‡ÒÒÚÓˇÌËÂ ËÒÔÓÎ¸ÁÓ‚‡ÌËˇ ÒÔÓÒÓ·ÌÓÒÚÂÈ
+	int armor = 0; //–±—Ä–æ–Ω—è
+	int damage = 0; //—É—Ä–æ–Ω
+	int medication = 0; //–õ–µ—á–µ–Ω–∏–µ
+	float chanceDodge = 0; //—à–∞–Ω—Å —É–∫–ª–æ–Ω–µ–Ω–∏—è 1 = dodge
+	int price; //—Ü–µ–Ω–∞
+	int lenDamage = 0; //–†–∞—Å—Å—Ç–æ—è–Ω–∏–µ –∏—Å–ø–æ–ª—å–∑–æ–≤–∞–Ω–∏—è —É—Ä–æ–Ω–∞
+	int lenUse = 0; //–†–∞—Å—Å—Ç–æ—è–Ω–∏–µ –∏—Å–ø–æ–ª—å–∑–æ–≤–∞–Ω–∏—è —Å–ø–æ—Å–æ–±–Ω–æ—Å—Ç–µ–π
 	float chanceUse = 1;
 
 	void takeHealth(int health) {
@@ -41,14 +41,14 @@ public:
 
 	void takeDamage(int damage) {
 		damage -= armor;
-		chanceDodge * 100 > rand() % 100 ? damage = 0 : false; //ÿ‡ÌÒ ÔÓÏ‡ı‡
+		chanceDodge * 100 > rand() % 100 ? damage = 0 : false; //–®–∞–Ω—Å –ø—Ä–æ–º–∞—Ö–∞
 		health - damage < 0 ? health = 0 : health -= damage;
 	}
 
 	int getHealth() { return health; }
 };
 
-//À∏„ÍËÈ ‚ÓËÌ
+//–õ—ë–≥–∫–∏–π –≤–æ–∏–Ω
 class LowUnit : public IBaseUnit {
 public:
 	LowUnit() {
@@ -68,7 +68,7 @@ public:
 	}
 };
 
-//—Â‰ÌÈË ‚ÓËÌ
+//–°—Ä–µ–¥–Ω–π–∏ –≤–æ–∏–Ω
 class MediumUnit : public IBaseUnit {
 public:
 	MediumUnit() {
@@ -88,7 +88,7 @@ public:
 	}
 };
 
-//“ˇÊ∏Î˚È ‚ÓËÌ
+//–¢—è–∂—ë–ª—ã–π –≤–æ–∏–Ω
 class HigtUnit : public IBaseUnit {
 public:
 	HigtUnit() {
@@ -108,7 +108,7 @@ public:
 	}
 };
 
-//¬ÓËÌ ÎÛ˜ÌËÍ
+//–í–æ–∏–Ω –ª—É—á–Ω–∏–∫
 class ArcherUnit : public IBaseUnit {
 public:
 	ArcherUnit() {
@@ -128,7 +128,7 @@ public:
 	}
 };
 
-//ÀÂ˜‡˘ËÈ ‚ÓËÌ
+//–õ–µ—á–∞—â–∏–π –≤–æ–∏–Ω
 class HillerUnit : public IBaseUnit {
 public:
 	HillerUnit() {
@@ -148,7 +148,7 @@ public:
 	}
 };
 
-// ÓÔËÛ˛˘ËÈ ‚ÓËÌ
+//–ö–æ–ø–∏—Ä—É—é—â–∏–π –≤–æ–∏–Ω
 class MagicUnit : public IBaseUnit {
 public:
 	MagicUnit() {
@@ -162,8 +162,8 @@ public:
 		lenDamage = 0;
 		lenUse = 1;
 		chanceUse = 1.0 / (startMoney / 250); //2500 sM -> 0.1, 25000 sM -> 0.01
-		chanceUse > 0.5 ? chanceUse = 0.5 : false; /*ÕÂ ‰‡∏Ï ¯‡ÌÒÛ ÍÓÔËÓ‚‡ÌËˇ ÒÚ‡Ú¸ ÒÎË¯ÍÓÏ ·ÓÎ¸¯ËÏ ÔË Ï‡Î˚ı ‰ÂÌ¸„‡ı
-		Ë ‰ÂÎ‡ÂÏ Â„Ó Ï‡ÎÂÌ¸ÍËÏ ÔË ·ÓÎ¸¯ÓÏ ÍÓÎË˜ÂÒÚ‚Â ‰ÂÌÂ„*/
+		chanceUse > 0.5 ? chanceUse = 0.5 : false; /*–ù–µ –¥–∞—ë–º —à–∞–Ω—Å—É –∫–æ–ø–∏—Ä–æ–≤–∞–Ω–∏—è —Å—Ç–∞—Ç—å —Å–ª–∏—à–∫–æ–º –±–æ–ª—å—à–∏–º –ø—Ä–∏ –º–∞–ª—ã—Ö –¥–µ–Ω—å–≥–∞—Ö
+		–∏ –¥–µ–ª–∞–µ–º –µ–≥–æ –º–∞–ª–µ–Ω—å–∫–∏–º –ø—Ä–∏ –±–æ–ª—å—à–æ–º –∫–æ–ª–∏—á–µ—Å—Ç–≤–µ –¥–µ–Ω–µ–≥*/
 
 		price = 400;
 		MAX_HP = health;

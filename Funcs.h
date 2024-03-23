@@ -36,19 +36,20 @@ void printCommands();
 void menuStop();
 void menuClear();
 void editMoney();
+void outInfo();
 void startSimulation();
 
 
 void printCommands() {
-    cout << "Íàæìèòå ñîîòâåñòâóþùóþ êëàâèøó:" << endl;
-    cout << "1 Çàïóñòèòü ñèìóëÿöèþ" << endl;
-    cout << "2 Èçìåíèòü ñòàðòîâûé áþäæåò" << endl;
-    //cout << "3 Ïå÷àòü ïàðàìåòðîâ" << endl;
-    cout << "ESC îñòàíîâèòü ïðîãðàììó" << endl;
+    cout << "ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑÑ‚Ð²ÑƒÑŽÑ‰ÑƒÑŽ ÐºÐ»Ð°Ð²Ð¸ÑˆÑƒ:" << endl;
+    cout << "1 Ð—Ð°Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ ÑÐ¸Ð¼ÑƒÐ»ÑÑ†Ð¸ÑŽ" << endl;
+    cout << "2 Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ ÑÑ‚Ð°Ñ€Ñ‚Ð¾Ð²Ñ‹Ð¹ Ð±ÑŽÐ´Ð¶ÐµÑ‚" << endl;
+    //cout << "3 ÐŸÐµÑ‡Ð°Ñ‚ÑŒ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð²" << endl;
+    cout << "ESC Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñƒ" << endl;
 }
 
 void menuStop() {
-    cout << endl << "Äëÿ ïðîäîëæåíèÿ ðàáîòû íàæìèòå ENTER" << endl;
+    cout << endl << "Ð”Ð»Ñ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶ÐµÐ½Ð¸Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ ENTER" << endl;
     char key;
     while (true) {
         key = _getch();
@@ -67,10 +68,10 @@ void menuClear() {
 
 void editMoney() {
     menuClear();
-    cout << "2 Èçìåíåíèå ñòàðòîâîãî áþäæåòà" << endl;
+    cout << "2 Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ ÑÑ‚Ð°Ñ€Ñ‚Ð¾Ð²Ð¾Ð³Ð¾ Ð±ÑŽÐ´Ð¶ÐµÑ‚Ð°" << endl;
     cout << endl;
-    cout << "Òåêóùåå çíà÷åíèå: " << startMoney << " (ñòàíäàðòíîå çíà÷åíèå: " << money << ")" << endl;
-    cout << "Ââåäèòå íîâûé áþäæåò: " << endl;
+    cout << "Ð¢ÐµÐºÑƒÑ‰ÐµÐµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ: " << startMoney << " (ÑÑ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ: " << money << ")" << endl;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð²Ñ‹Ð¹ Ð±ÑŽÐ´Ð¶ÐµÑ‚: " << endl;
 
     string str;
     getline(cin, str);
@@ -85,11 +86,11 @@ void editMoney() {
     int res;
     if (newMoney == "") {
         res = startMoney;
-        cout << "Ñòàðòîâûé áþäæåò íå èçìåí¸í - íåò öèôð â ñòðîêå, ñòàðîå çíà÷åíèå " << startMoney << endl;
+        cout << "Ð¡Ñ‚Ð°Ñ€Ñ‚Ð¾Ð²Ñ‹Ð¹ Ð±ÑŽÐ´Ð¶ÐµÑ‚ Ð½Ðµ Ð¸Ð·Ð¼ÐµÐ½Ñ‘Ð½ - Ð½ÐµÑ‚ Ñ†Ð¸Ñ„Ñ€ Ð² ÑÑ‚Ñ€Ð¾ÐºÐµ, ÑÑ‚Ð°Ñ€Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ " << startMoney << endl;
     }
     else {
         res = stoi(newMoney);
-        cout << "Ñòàðòîâûé áþäæåò èçìåí¸í è ñîñòîâëÿåò " << res << endl;
+        cout << "Ð¡Ñ‚Ð°Ñ€Ñ‚Ð¾Ð²Ñ‹Ð¹ Ð±ÑŽÐ´Ð¶ÐµÑ‚ Ð¸Ð·Ð¼ÐµÐ½Ñ‘Ð½ Ð¸ ÑÐ¾ÑÑ‚Ð¾Ð²Ð»ÑÐµÑ‚ " << res << endl;
     }
     menuStop();
     menuClear();
@@ -97,30 +98,32 @@ void editMoney() {
     startMoney = res;
 }
 
-void 123();
+void outInfo() {
+
+}
 
 void startSimulation() {
     Team team1(1);
     Team team2(2);
 
     menuClear();
-    cout << "Êîììàíû ïåðåä íà÷àëîì áîÿ: " << endl;
+    cout << "ÐšÐ¾Ð¼Ð¼Ð°Ð½Ñ‹ Ð¿ÐµÑ€ÐµÐ´ Ð½Ð°Ñ‡Ð°Ð»Ð¾Ð¼ Ð±Ð¾Ñ: " << endl;
     team1.print();
     team2.print();
     menuStop();
 
     int motion = 0;
-    while (team1.len != 0 && team2.len != 0) { //Öèêë áîÿ
+    while (team1.len != 0 && team2.len != 0) { //Ð¦Ð¸ÐºÐ» Ð±Ð¾Ñ
         team1.move(team2);
         team2.move(team1);
 
-        //Ðåçóëüòàòû
-        cout << ++motion << " õîä: " << endl;
+        //Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ñ‹
+        cout << ++motion << " Ñ…Ð¾Ð´: " << endl;
         team1.print();
         team2.print();
     }
 
-    cout << endl << "Áîé çàâåðø¸í, ïîáåäèëà êîìàíäà " << (team2.len == 0 ? team1 : team2).number << endl;
+    cout << endl << "Ð‘Ð¾Ð¹ Ð·Ð°Ð²ÐµÑ€ÑˆÑ‘Ð½, Ð¿Ð¾Ð±ÐµÐ´Ð¸Ð»Ð° ÐºÐ¾Ð¼Ð°Ð½Ð´Ð° " << (team2.len == 0 ? team1 : team2).number << endl;
 }
 
 
