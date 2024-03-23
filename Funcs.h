@@ -29,6 +29,8 @@ using namespace std;
 #define k0 58
 
 extern int startMoney;
+int money = startMoney;
+
 
 void printCommands();
 void menuStop();
@@ -67,6 +69,7 @@ void editMoney() {
     menuClear();
     cout << "2 Изменение стартового бюджета" << endl;
     cout << endl;
+    cout << "Текущее значение: " << startMoney << " (стандартное значение: " << money << ")" << endl;
     cout << "Введите новый бюджет: " << endl;
 
     string str;
@@ -115,7 +118,7 @@ void startSimulation() {
         team2.print();
     }
 
-    cout << endl << "Бой завершён, победила команда " << (team2.len == 0 ? 1 : 2) << endl;
+    cout << endl << "Бой завершён, победила команда " << (team2.len == 0 ? team1 : team2).number << endl;
 }
 
 

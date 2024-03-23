@@ -117,7 +117,7 @@ void Team::move(Team& enemies) {
             for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом и ищем лёгкого
                 if (i == index || i < 0 || i > len - 1) { continue; } //Проверка на выход массива
                 if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не находили
-                    copy = unit->chanceUse * 100 > rand() % 100 ? true : false; //Прокаем шанс на копирование
+                    copy = unit->chanceUse * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
                 }
             }
             if (copy) { //Копируем и вставляем в случае удачи

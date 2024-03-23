@@ -7,6 +7,7 @@
 
 extern int startMoney;
 
+
 class BaseUnit; //-b Базовый воин
 
 class LowUnit; //-l Лёгкий воин
@@ -161,7 +162,7 @@ public:
 		lenDamage = 0;
 		lenUse = 1;
 		chanceUse = 1.0 / (startMoney / 250); //2500 sM -> 0.1, 25000 sM -> 0.01
-		chanceUse > 0.875 ? chanceUse = 0.875 : false; /*Не даём шансу копирования стать слишком большим при малых деньгах
+		chanceUse > 0.5 ? chanceUse = 0.5 : false; /*Не даём шансу копирования стать слишком большим при малых деньгах
 		и делаем его маленьким при большом количестве денег*/
 
 		price = 400;
