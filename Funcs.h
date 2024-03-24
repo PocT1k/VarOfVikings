@@ -83,21 +83,16 @@ void editMoney() {
         }
     }
 
-    int res;
     if (newMoney == "") {
-        res = startMoney;
         cout << "Стартовый бюджет не изменён - нет цифр в строке, старое значение " << startMoney << endl;
     }
-    else {
-        res = stoi(newMoney);
-        cout << "Стартовый бюджет изменён и состовляет " << res << endl;
+    else if (stoi(newMoney) < minPrice) {
+        cout << "Стартовый бюджет не изменён - значение " << stoi(newMoney) <<" меньше цены наидешёвейшего бойца (" << minPrice << "), старое значение " << startMoney << endl;
     }
-
-    startMoney = res;
-
-    menuStop();
-    menuClear();
-    printCommands();
+    else {
+        startMoney = stoi(newMoney);
+        cout << "Стартовый бюджет изменён и состовляет " << startMoney << endl;
+    }
 }
 
 void outInfo() {
@@ -126,10 +121,6 @@ void startSimulation() {
     }
 
     cout << endl << "Бой завершён, победила команда " << (team2.len == 0 ? team1 : team2).number << endl;
-
-    menuStop();
-    menuClear();
-    printCommands();
 }
 
 

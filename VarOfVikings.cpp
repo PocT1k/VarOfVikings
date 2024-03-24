@@ -57,7 +57,10 @@ int main() {
             goto start;
             break;
         }
-    }
 
+        menuStop();
+        menuClear();
+        printCommands();
+    }
 	return 0;
 }
