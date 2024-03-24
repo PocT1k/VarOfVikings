@@ -92,10 +92,12 @@ void editMoney() {
         res = stoi(newMoney);
         cout << "Стартовый бюджет изменён и состовляет " << res << endl;
     }
+
+    startMoney = res;
+
     menuStop();
     menuClear();
     printCommands();
-    startMoney = res;
 }
 
 void outInfo() {
@@ -124,6 +126,10 @@ void startSimulation() {
     }
 
     cout << endl << "Бой завершён, победила команда " << (team2.len == 0 ? team1 : team2).number << endl;
+
+    menuStop();
+    menuClear();
+    printCommands();
 }
 
 

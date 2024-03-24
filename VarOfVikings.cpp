@@ -37,6 +37,7 @@ int main() {
     char key;
     bool run = 1;
     while (run) {
+        start:
         key = _getch();
 
         switch (key) {
@@ -49,16 +50,13 @@ int main() {
         case k2:
             editMoney();
             break;
-        case k3:
-            outInfo();
-            break;
+        //case k3:
+        //    outInfo();
+        //    break;
         default:
+            goto start;
             break;
         }
-
-        menuStop();
-        menuClear();
-        printCommands();
     }
 
 	return 0;
