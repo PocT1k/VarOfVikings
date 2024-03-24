@@ -37,12 +37,13 @@ int main() {
     char key;
     bool run = 1;
     while (run) {
-        start:
+start:
         key = _getch();
 
         switch (key) {
         case kESC:
             run = 0;
+            goto end;
             break;
         case k1:
             startSimulation();
@@ -62,5 +63,7 @@ int main() {
         menuClear();
         printCommands();
     }
+
+end:
 	return 0;
 }
