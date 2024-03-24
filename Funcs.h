@@ -99,7 +99,7 @@ void editMoney() {
 }
 
 void outInfo() {
-
+    void;
 }
 
 void startSimulation() {

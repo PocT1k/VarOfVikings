@@ -123,7 +123,7 @@ void Team::move(Team& enemies) {
             }
             if (copy) { //Копируем и вставляем в случае удачи
                 auto position = units.begin() + index;
-                units.insert(position + (rand() % 2 ? 1 : 0), make_shared<LowUnit>()); //Вставка перед или после мага
+                units.insert(position + rand() % 2, make_shared<LowUnit>()); //Вставка перед или после мага
                 len++;
                 index++;
             }
