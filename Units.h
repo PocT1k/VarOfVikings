@@ -35,17 +35,19 @@ public:
 	int lenUse = 0; //Расстояние использования способностей
 	float chanceUse = 1;
 
-	void takeHealth(int health) {
+	void takeHealth(int health) { //Функция применения отхила
 		this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
+		//Если текущееЗдоровье + отхил больше максимального => текущееЗдоровье = максимальное, иначе текущееЗдоровье = текущееЗдоровье + отхил
 	}
 
-	void takeDamage(int damage) {
-		damage -= armor;
+	void takeDamage(int damage) { //Функция применения урона
+		damage -= armor; //Уменьшаем урон на значение брони
 		chanceDodge * 100 > rand() % 100 ? damage = 0 : false; //Шанс промаха
 		health - damage < 0 ? health = 0 : health -= damage;
+		//Если текущееЗдоровье - урон меньше 0 => текущееЗдоровье = 0, иначе текущееЗдоровье = текущееЗдоровье - урон
 	}
 
-	int getHealth() { return health; }
+	int getHealth() { return health; } //Фукнция получение приватного поля - здоровья
 };
 
 //Лёгкий воин
@@ -161,7 +163,7 @@ public:
 		chanceDodge = 0;
 		lenDamage = 0;
 		lenUse = 1;
-		chanceUse = 1.0 / (startMoney / 250); //2500 sM -> 0.1, 25000 sM -> 0.01
+		chanceUse = 1.0 / (startMoney / 250); //2500 sM => 0.1, 25000 sM => 0.01
 		chanceUse > 0.5 ? chanceUse = 0.5 : false; /*Не даём шансу копирования стать слишком большим при малых деньгах
 		и делаем его маленьким при большом количестве денег*/
 

@@ -93,7 +93,7 @@ void Team::move(Team& enemies) {
     bool copy = false;
     int index = 0;
 
-    for (auto unit : units) { //Первый фигарит первого
+    for (auto unit : units) { //Вся комманда пытается ударить первого
         if (unit->lenDamage >= index) { //Применение дамага если позволяет расстояние
             fullDamage += unit->damage;
         }
@@ -115,7 +115,7 @@ void Team::move(Team& enemies) {
     for (index = 0; index < len; index++) { //Ходят маги
         auto unit = units[index];
         if (unit->type == 'c') {
-            for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом и ищем лёгкого
+            for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом в зоне действия и ищем лёгкого
                 if (i == index || i < 0 || i > len - 1) { continue; } //Проверка на выход массива
                 if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не находили
                     copy = unit->chanceUse * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
@@ -123,7 +123,7 @@ void Team::move(Team& enemies) {
             }
             if (copy) { //Копируем и вставляем в случае удачи
                 auto position = units.begin() + index;
-                units.insert(position + rand() % 2, make_shared<LowUnit>()); //Вставка перед или после мага
+                units.insert(position + rand() % 2, make_shared<LowUnit>()); //Вставка перед или после позиции мага
                 len++;
                 index++;
             }
@@ -133,7 +133,7 @@ void Team::move(Team& enemies) {
     index = 0;
 
     //Удаление бойца
-    if (!enemies.units[0]->getHealth()) {
+    if (!enemies.units[0]->getHealth()) { // 0 => воин умер, иначе любое ненулевое значение => воин жив
         enemies.units.erase(enemies.units.begin());
         enemies.len--;
     }
