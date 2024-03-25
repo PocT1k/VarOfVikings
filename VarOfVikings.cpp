@@ -7,11 +7,11 @@
 * Project Name   : VarOfVikings                              *
 * File Name      : VarOfVikings.cpp                          *
 * Language       : C++                                       *
-* Programmers(s) : Чернышёв Е.А.                             *
+* Programmers(s) : Чернышёв Е. Дума А.                       *
 * Modifyed by    :                                           *
 * Lit sourse     :                                           *
 * Created        : 19/03/24                                  *
-* Last Revision  : 23/03/24                                  *
+* Last Revision  : 24/03/24                                  *
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
 
@@ -37,7 +37,7 @@ int main() {
     char key;
     bool run = 1;
     while (run) {
-start:
+        start:
         key = _getch();
 
         switch (key) {
