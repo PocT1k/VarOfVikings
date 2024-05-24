@@ -22,6 +22,10 @@
 
 
 int startMoney = 2500;
+unsigned int typeStrateg = 0;
+const unsigned int quantStrateg = 3;
+string arrStrategNames[quantStrateg] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
+
 
 int main() {
     setlocale(LC_ALL, "Russian");
@@ -37,12 +41,14 @@ int main() {
     char key;
     bool run = 1;
     while (run) {
-        start:
+start:
         key = _getch();
 
         switch (key) {
         case kESC:
             run = 0;
+            menuClear();
+            cout << "Программа остановлена" << endl;
             goto end;
             break;
         case k1:
@@ -51,18 +57,21 @@ int main() {
         case k2:
             editMoney();
             break;
-        //case k3:
-        //    outInfo();
-        //    break;
+        case k3:
+            editStrateg();
+            break;
+        case k0:
+            outInfo();
+            break;
         default:
             goto start;
             break;
-        }
+        } //switch
 
         menuStop();
         menuClear();
         printCommands();
-    }
+    } //while
 
 end:
 	return 0;

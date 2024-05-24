@@ -20,10 +20,11 @@ Team::Team(int number) {
     //Заполнение войск
     while (money >= minPrice) {
         shared_ptr<IBaseUnit> tempUnit = randomUnit();
-        if (tempUnit != nullptr) {
-            units.push_back(tempUnit);
-            len++;
+        if (tempUnit == nullptr) {
+            continue;
         }
+        units.push_back(tempUnit);
+        len++;
     }
 }
 
@@ -85,7 +86,7 @@ void Team::print() {
     cout << "(" << len /*units.size()*/ << ")" << endl;
 }
 
-void Team::move(Team& enemies) {
+void Team::move0(Team& enemies) {
     if (len == 0 || enemies.len == 0) { return; } //Проверка на наличие воинов в команде
 
     int fullDamage = 0;

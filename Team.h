@@ -29,7 +29,7 @@ public:
 	Team(int number);
 	shared_ptr<IBaseUnit> randomUnit();
 	void print();
-	void move(Team& enemies);
+	void move0(Team& enemies);
 };
 
 

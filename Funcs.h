@@ -28,8 +28,13 @@ using namespace std;
 #define k9 57
 #define k0 58
 
+//money
 extern int startMoney;
-int money = startMoney;
+int standartMoney = startMoney;
+//strateg
+extern unsigned int typeStrateg;
+extern const unsigned int quantStrateg;
+extern string arrStrategNames[];
 
 
 void printCommands();
@@ -44,6 +49,7 @@ void printCommands() {
     cout << "Нажмите соотвествующую клавишу:" << endl;
     cout << "1 Запустить симуляцию" << endl;
     cout << "2 Изменить стартовый бюджет" << endl;
+    cout << "3 Изменить тип стратегии игры" << endl;
     //cout << "3 Печать параметров" << endl;
     cout << "ESC остановить программу" << endl;
 }
@@ -70,7 +76,7 @@ void editMoney() {
     menuClear();
     cout << "2 Изменение стартового бюджета" << endl;
     cout << endl;
-    cout << "Текущее значение: " << startMoney << " (стандартное значение: " << money << ")" << endl;
+    cout << "Текущее значение: " << startMoney << " (стандартное значение: " << standartMoney << ")" << endl;
     cout << "Введите новый бюджет: " << endl;
 
     string str;
@@ -95,8 +101,55 @@ void editMoney() {
     }
 }
 
-void outInfo() {
+void editStrateg() {
+    menuClear();
+    cout << "3 Изменение типа стратегии игры" << endl;
+    cout << endl;
+    cout << "Текущее стратегия №" << typeStrateg + 1 << " (" << arrStrategNames[typeStrateg] << ")" << endl;
+    cout << endl;
+    cout << "Выберите новую стратегию (нажмите соотвествующую клавишу): " << endl;
+    for (int i = 0; i < quantStrateg; i++) { cout << i + 1 << " " << arrStrategNames[i] << endl; } //печать стратегий
+
+    char key;
+    bool run = 1;
+    while (run) {
+start:
+        key = _getch();
+
+        switch (key) {
+        case kESC:
+            run = 0;
+            cout << endl;
+            cout << "Изменение типа стратегии игры отменено" << endl;
+            goto end;
+            break;
+        case k1:
+            run = 0;
+            typeStrateg = 0;
+            break;
+        case k2:
+            run = 0;
+            typeStrateg = 1;
+            break;
+        case k3:
+            run = 0;
+            typeStrateg = 2;
+            break;
+        default:
+            goto start;
+            break;
+        } //switch
+
+    } //while
+    cout << endl;
+    cout << "Выбрат тип стратегии №" << typeStrateg + 1 << " (" << arrStrategNames[typeStrateg] << ")" << endl;
+end:
+    return;
+}
+
+void outInfo() { //TONOTDO
     void;
+    return;
 }
 
 void startSimulation() {
@@ -111,8 +164,8 @@ void startSimulation() {
 
     int motion = 0;
     while (team1.len != 0 && team2.len != 0) { //Цикл боя
-        team1.move(team2);
-        team2.move(team1);
+        team1.move0(team2);
+        team2.move0(team1);
 
         //Результаты
         cout << ++motion << " ход: " << endl;
