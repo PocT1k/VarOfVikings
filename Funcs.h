@@ -17,6 +17,7 @@ using namespace std;
 #define kSPACE 32
 #define kENTER 13
 #define kBACKSPACE 8
+#define k0 48
 #define k1 49
 #define k2 50
 #define k3 51
@@ -26,7 +27,6 @@ using namespace std;
 #define k7 55
 #define k8 56
 #define k9 57
-#define k0 58
 
 //money
 extern int startMoney;
@@ -148,6 +148,7 @@ end:
 }
 
 void outInfo() { //TONOTDO
+    cout << "\t " << endl;
     void;
     return;
 }

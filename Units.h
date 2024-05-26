@@ -36,6 +36,9 @@ public:
 	float chanceUse = 1;
 
 	void takeHealth(int health) { //Функция применения отхила
+		if (this->health <= 0) { //Если текущееЗдоровье = 0, то воин мёртв, отхил не приминяем
+			return;
+		}
 		this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
 		//Если текущееЗдоровье + отхил больше максимального => текущееЗдоровье = максимальное, иначе текущееЗдоровье = текущееЗдоровье + отхил
 	}
