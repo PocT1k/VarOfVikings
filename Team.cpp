@@ -1,6 +1,9 @@
 ﻿#include "Team.h"
 
 
+//Хендл консоли
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 //Для определения всех цен
 LowUnit lu;
 MediumUnit mu;
@@ -26,6 +29,9 @@ Team::Team(int number) {
         units.push_back(tempUnit);
         len++;
     }
+
+    //Выдача щита
+
 }
 
 shared_ptr<IBaseUnit> Team::randomUnit() {
@@ -63,16 +69,59 @@ shared_ptr<IBaseUnit> Team::randomUnit() {
     return nullptr;
 }
 
-bool isUnderShield() {
+int Team::getUnitNumber(shared_ptr<IBaseUnit> unit) {
+    auto it = find(units.begin(), units.end(), unit);
+    if (it != units.end()) {
+        return distance(units.begin(), it);
+    }
+    else {
+        return -1; //Воин не найден
+    }
+}
+
+bool Team::isUnderShield(shared_ptr<IBaseUnit> unit) {
+    int numberUnit = getUnitNumber(unit);
+        if (numberUnit >= ptrShield && numberUnit < ptrShield + lenShield) {
+            return true;
+        }
     return false;
 }
 
 void Team::print() {
     cout << "  к" << number << ": ";
+
+    //Определение цвета
+    int health, color;
     for (const auto& unit : units) {
+        health = unit->getHealth();
+        color = (health == 0 ? 4 : (health == unit->getMAX_HP() ? 2 : 6)); //Окрашиваем в зависимости от уровня здоровья
+        if (isUnderShield(unit)) { color += 16; } //Если под щитом, то дополнительно красим
+        SetConsoleTextAttribute(hConsole, color);
         cout << unit->getName() << " ";
     }
+
+    SetConsoleTextAttribute(hConsole, 7);
     cout << "(" << len /*units.size()*/ << ")" << endl;
+}
+
+void Team::deleteDead() {
+    int i = 0;
+    for (auto it = units.begin(); it != units.end();) { //Перебираем итераторы в списке
+        if (!(*it)->getHealth()) { // 0 => воин умер, иначе любое ненулевое значение => воин жив
+            it = units.erase(it);
+            len--;
+            if (i < ptrShield) { //Передвижение щита
+                ptrShield--;
+            }
+            else if (i == ptrShield && lenShield > 0) { //Уменьшение щита
+                lenShield--;
+            }
+        }
+        else {
+            it++;
+            i++;
+        }
+    }
 }
 
 void Team::move0(Team& enemies) {
@@ -80,7 +129,7 @@ void Team::move0(Team& enemies) {
 
     int fullDamage = 0;
     int fullHealth = 0;
-    bool copy = false;
+    bool copy = false; //нужно чтобы копирование срабатывало максимум 1 раз за ход
     int index = 0;
 
     for (auto unit : units) { //Вся комманда пытается ударить первого
@@ -121,10 +170,4 @@ void Team::move0(Team& enemies) {
         }
     }
     index = 0;
-
-    //Удаление бойца
-    if (!enemies.units[0]->getHealth()) { // 0 => воин умер, иначе любое ненулевое значение => воин жив
-        enemies.units.erase(enemies.units.begin());
-        enemies.len--;
-    }
 }

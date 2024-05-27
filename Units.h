@@ -20,8 +20,7 @@ class HillerUnit; //-p Лечащий воин
 class MagicUnit; //-c Копирующий воин
 
 
-//Базовый воин
-class IBaseUnit {
+class IBaseUnit { //Базовый воин
 protected:
 	int health; //здоровье
 	int MAX_HP; //переменная максимального здоровья
@@ -51,14 +50,15 @@ public:
 		//Если текущееЗдоровье - урон меньше 0 => текущееЗдоровье = 0, иначе текущееЗдоровье = текущееЗдоровье - урон
 	}
 
-	virtual string getName() = 0;
-
 	//getters & setters
-	int getHealth() { return health; } //Фукнция получение приватного поля - здоровья
+	int getHealth() { return health; }
+	int getMAX_HP() { return MAX_HP; }
+
+	virtual string getName() = 0;
 };
 
-//Лёгкий воин
-class LowUnit : public IBaseUnit {
+
+class LowUnit : public IBaseUnit { //Лёгкий воин
 public:
 	LowUnit() {
 		type = 'l';
@@ -78,8 +78,8 @@ public:
 	string getName() override { return "Лёгкий"; }
 };
 
-//Среднйи воин
-class MediumUnit : public IBaseUnit {
+
+class MediumUnit : public IBaseUnit { //Среднйи воин
 public:
 	MediumUnit() {
 		type = 'm';
@@ -99,8 +99,8 @@ public:
 	string getName() override { return "Средний"; }
 };
 
-//Тяжёлый воин
-class HigtUnit : public IBaseUnit {
+
+class HigtUnit : public IBaseUnit { //Тяжёлый воин
 public:
 	int buff = 0; //Улучшение
 
@@ -119,11 +119,12 @@ public:
 		price = 350;
 		MAX_HP = health;
 	}
+	void upgrade(); //TODO
 	string getName() override { return "Тяжёлый"; }
 };
 
-//Воин лучник
-class ArcherUnit : public IBaseUnit {
+
+class ArcherUnit : public IBaseUnit { //Воин лучник
 public:
 	ArcherUnit() {
 		type = 'a';
@@ -143,8 +144,8 @@ public:
 	string getName() override { return "Лучник"; }
 };
 
-//Лечащий воин
-class HillerUnit : public IBaseUnit {
+
+class HillerUnit : public IBaseUnit { //Лечащий воин
 public:
 	HillerUnit() {
 		type = 'p';
@@ -164,8 +165,8 @@ public:
 	string getName() override { return "Хиллер"; }
 };
 
-//Копирующий воин
-class MagicUnit : public IBaseUnit {
+
+class MagicUnit : public IBaseUnit { //Копирующий воин
 public:
 	MagicUnit() {
 		type = 'c';

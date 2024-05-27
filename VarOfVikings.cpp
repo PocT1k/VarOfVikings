@@ -14,6 +14,7 @@
 * Last Revision  : 24/03/24                                  *
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
+//Логирование, щит, стратегии, апдейт тяжёлого
 
 #include <windows.h>
 #include <iostream>
@@ -21,7 +22,7 @@
 #include "Funcs.h"
 
 
-int startMoney = 2500;
+int startMoney = 2500; //Стартовые деньги, 2500 в среднем хватает на 10 воинов
 unsigned int typeStrateg = 0;
 const unsigned int quantStrateg = 3;
 string arrStrategNames[quantStrateg] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
