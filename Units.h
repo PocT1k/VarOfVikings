@@ -4,8 +4,10 @@
 
 #include <string>
 
+using namespace std;
 
-extern int startMoney;
+
+extern int startMoney; //Для рандома копимага
 
 
 class IBaseUnit; //-b Базовый воин
@@ -14,7 +16,6 @@ class LowUnit; //-l Лёгкий воин
 class MediumUnit; //-m Среднйи воин
 class HigtUnit; //-h Тяжёлый воин
 class ArcherUnit; //-a Воин лучник
-
 class HillerUnit; //-p Лечащий воин
 class MagicUnit; //-c Копирующий воин
 
@@ -50,6 +51,8 @@ public:
 		//Если текущееЗдоровье - урон меньше 0 => текущееЗдоровье = 0, иначе текущееЗдоровье = текущееЗдоровье - урон
 	}
 
+	virtual string getName() = 0;
+
 	//getters & setters
 	int getHealth() { return health; } //Фукнция получение приватного поля - здоровья
 };
@@ -72,6 +75,7 @@ public:
 		price = 100;
 		MAX_HP = health;
 	}
+	string getName() override { return "Лёгкий"; }
 };
 
 //Среднйи воин
@@ -92,11 +96,14 @@ public:
 		price = 250;
 		MAX_HP = health;
 	}
+	string getName() override { return "Средний"; }
 };
 
 //Тяжёлый воин
 class HigtUnit : public IBaseUnit {
 public:
+	int buff = 0; //Улучшение
+
 	HigtUnit() {
 		type = 'h';
 
@@ -112,6 +119,7 @@ public:
 		price = 350;
 		MAX_HP = health;
 	}
+	string getName() override { return "Тяжёлый"; }
 };
 
 //Воин лучник
@@ -132,6 +140,7 @@ public:
 		price = 200;
 		MAX_HP = health;
 	}
+	string getName() override { return "Лучник"; }
 };
 
 //Лечащий воин
@@ -152,6 +161,7 @@ public:
 		price = 150;
 		MAX_HP = health;
 	}
+	string getName() override { return "Хиллер"; }
 };
 
 //Копирующий воин
@@ -174,6 +184,7 @@ public:
 		price = 400;
 		MAX_HP = health;
 	}
+	string getName() override { return "Копимаг"; }
 };
 
 

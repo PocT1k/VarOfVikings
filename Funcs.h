@@ -154,6 +154,7 @@ void outInfo() { //TONOTDO
 }
 
 void startSimulation() {
+    cout << "Создание команд... " << endl;
     Team team1(1);
     Team team2(2);
 
@@ -163,7 +164,7 @@ void startSimulation() {
     team2.print();
     menuStop();
 
-    int motion = 0;
+    unsigned int motion = 0; //Номер хода
     while (team1.len != 0 && team2.len != 0) { //Цикл боя
         team1.move0(team2);
         team2.move0(team1);

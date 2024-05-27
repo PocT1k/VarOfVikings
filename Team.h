@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include "Units.h"
 
@@ -28,6 +29,7 @@ public:
 
 	Team(int number);
 	shared_ptr<IBaseUnit> randomUnit();
+	bool isUnderShield();
 	void print();
 	void move0(Team& enemies);
 };

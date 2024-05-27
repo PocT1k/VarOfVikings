@@ -63,25 +63,14 @@ shared_ptr<IBaseUnit> Team::randomUnit() {
     return nullptr;
 }
 
+bool isUnderShield() {
+    return false;
+}
+
 void Team::print() {
     cout << "  к" << number << ": ";
     for (const auto& unit : units) {
-        switch (unit->type) {
-        case 'l':
-            cout << "Лёгкий" << " "; break;
-        case 'm':
-            cout << "Средний" << " "; break;
-        case 'h':
-            cout << "Тяжёлый" << " "; break;
-        case 'a':
-            cout << "Лучник" << " "; break;
-        case 'p':
-            cout << "Хиллер" << " "; break;
-        case 'c':
-            cout << "Копимаг" << " "; break;
-        default:
-            break;
-        }
+        cout << unit->getName() << " ";
     }
     cout << "(" << len /*units.size()*/ << ")" << endl;
 }
