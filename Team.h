@@ -6,16 +6,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
 
 #include "Units.h"
 
 using namespace std;
 
+#define COUNT_OF_UNITS 6
 
 extern int startMoney;
-extern IBaseUnit* unitsArr[6];
-extern int prices[6];
-extern int minPrice;
+extern int minPriceUnit;
 
 
 class Team;
@@ -23,18 +23,20 @@ class Team;
 
 class Team { //Команда
 public:
-	int number = 0; //Номер команды - 1 или 2
-	int money = 0; //Money, money, money	Must be funny	In the rich man's world
-	int len = 0; //Количество оставшихся воинов, 0 - команда закончилась и проиграла
+	int numberTeam = 0; //Номер команды - 1 или 2
+	int moneyTeam = 0; //Money, money, money	Must be funny	In the rich man's world
+	int lenTeam = 0; //Количество оставшихся воинов, 0 - команда закончилась и проиграла
 	vector<shared_ptr<IBaseUnit>> units; //Вектор с воинами
 
-	int ptrShield = 3; //Начало щита
-	int lenShield = 2; //Длинна щита
-	int healthShield; //Здоровье щита
+	int ptrShield = 0; //Начало щита
+	int lenShield = 0; //Длинна щита
+	int healthShield = 0; //Здоровье щита
 
 	Team(int number); //Создание команды, всё в конструкторе
-	shared_ptr<IBaseUnit> randomUnit(); //Сгенерировать воина
-	int getUnitNumber(shared_ptr<IBaseUnit> unit);
+	shared_ptr<IBaseUnit> generateUnit(); //Сгенерировать воина
+	void generateShield(); //Сгенерировать щит
+	
+	int getUnitNumber(shared_ptr<IBaseUnit> unit); //Узнать №пп воина
 	bool isUnderShield(shared_ptr<IBaseUnit> unit); //Узнать под щитом воин или инет
 	void print(); //Печать команды
 	void deleteDead(); //Удаление мёртвых бойцов

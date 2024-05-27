@@ -23,18 +23,17 @@
 
 
 int startMoney = 2500; //Стартовые деньги, 2500 в среднем хватает на 10 воинов
-unsigned int typeStrateg = 0;
-const unsigned int quantStrateg = 3;
-string arrStrategNames[quantStrateg] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
+float medLenShild = 0.33; //Средняя длинна цита, 0.33 = 33%
+float medHealthShield = 0.1; //Среднее значение здоровья щита от здоровья всей команды, 0.1 = 10%
 
 
 int main() {
+    SetConsoleTitle(L"VarOfVikings");
     setlocale(LC_ALL, "Russian");
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
     system("chcp 65001 > nul");
     srand(time(nullptr));
-    SetConsoleTitle(L"VarOfVikings");
 
     menuClear();
     printCommands();
@@ -53,7 +52,7 @@ start:
             goto end;
             break;
         case k1:
-            startSimulation();
+            runSimulation();
             break;
         case k2:
             editMoney();

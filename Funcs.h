@@ -14,6 +14,8 @@
 using namespace std;
 
 
+#define COUNT_OF_STRATEG 3
+
 #define kESC 27
 #define kSPACE 32
 #define kENTER 13
@@ -34,17 +36,17 @@ using namespace std;
 extern int startMoney;
 int standartMoney = startMoney;
 //strateg
-extern unsigned int typeStrateg;
-extern const unsigned int quantStrateg;
-extern string arrStrategNames[];
+unsigned int typeStrateg = 0;
+string arrStrategNames[COUNT_OF_STRATEG] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
 
 
 void printCommands();
 void menuStop();
 void menuClear();
 void editMoney();
+void editStrateg();
 void outInfo();
-void startSimulation();
+void runSimulation();
 
 
 void printCommands() {
@@ -94,8 +96,8 @@ void editMoney() {
     if (bufferNewMoney == "") {
         cout << "Стартовый бюджет не изменён - нет цифр в строке, старое значение " << startMoney << endl;
     }
-    else if (stoi(bufferNewMoney) < minPrice) {
-        cout << "Стартовый бюджет не изменён - значение " << stoi(bufferNewMoney) <<" меньше цены наидешёвейшего бойца (" << minPrice << "), старое значение " << startMoney << endl;
+    else if (stoi(bufferNewMoney) < minPriceUnit) {
+        cout << "Стартовый бюджет не изменён - значение " << stoi(bufferNewMoney) <<" меньше цены наидешёвейшего бойца (" << minPriceUnit << "), старое значение " << startMoney << endl;
     }
     else {
         startMoney = stoi(bufferNewMoney);
@@ -110,7 +112,7 @@ void editStrateg() {
     cout << "Текущее стратегия №" << typeStrateg + 1 << " (" << arrStrategNames[typeStrateg] << ")" << endl;
     cout << endl;
     cout << "Выберите новую стратегию (нажмите соотвествующую клавишу):" << endl;
-    for (int i = 0; i < quantStrateg; i++) { cout << i + 1 << " " << arrStrategNames[i] << endl; } //печать стратегий
+    for (int i = 0; i < COUNT_OF_STRATEG; i++) { cout << i + 1 << " " << arrStrategNames[i] << endl; } //печать стратегий
 
     char key;
     bool run = 1;
@@ -155,7 +157,7 @@ void outInfo() { //TONOTDO
     return;
 }
 
-void startSimulation() {
+void runSimulation() {
     cout << "Создание команд..." << endl;
     Team team1(1);
     Team team2(2);
@@ -167,7 +169,7 @@ void startSimulation() {
     menuStop();
 
     unsigned int motion = 0; //Номер хода
-    while (team1.len != 0 && team2.len != 0) { //Цикл боя
+    while (team1.lenTeam != 0 && team2.lenTeam != 0) { //Цикл боя
         //Ход
         team1.move0(team2);
         team2.move0(team1);
@@ -182,10 +184,10 @@ void startSimulation() {
         team2.deleteDead();
     }
 
-    Team* team = (team2.len == 0 ? &team1 : &team2);
+    Team* team = (team2.lenTeam == 0 ? &team1 : &team2);
     cout << endl << endl << "Оставшиеся в победившей команде:" << endl;
     team->print();
-    cout << endl << "Бой завершён, победила команда " << team->number << endl;
+    cout << endl << "Бой завершён, победила команда " << team->numberTeam << endl;
 }
 
 

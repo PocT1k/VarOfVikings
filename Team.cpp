@@ -1,72 +1,104 @@
 ﻿#include "Team.h"
 
+extern float medLenShild;
+extern float medHealthShield;
 
 //Хендл консоли
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-//Для определения всех цен
 LowUnit lu;
 MediumUnit mu;
 HigtUnit hu;
 ArcherUnit au;
 HillerUnit pu;
 MagicUnit cu;
-IBaseUnit* unitsArr[6] = { &lu, &mu, &hu, &au, &pu, &cu };
-int prices[6] = { lu.price, mu.price, hu.price, au.price, pu.price, cu.price };
-int minPrice = *std::min_element(prices, prices + 6); //Нахождение минимальной цены
+IBaseUnit* unitsArr[COUNT_OF_UNITS] = { &lu, &mu, &hu, &au, &pu, &cu };
+
+//Минимальная цена
+int prices[COUNT_OF_UNITS] = { lu.price, mu.price, hu.price, au.price, pu.price, cu.price };
+int minPriceUnit = *std::min_element(prices, prices + COUNT_OF_UNITS); //Минимальная цена
+
+
+void playDeadSound();
+
+void playDeadSound() {
+    cout << "\a";
+}
 
 
 Team::Team(int number) {
-    this->number = number;
-    money = startMoney;
+    this->numberTeam = number;
+    moneyTeam = startMoney;
 
     //Заполнение войск
-    while (money >= minPrice) {
-        shared_ptr<IBaseUnit> tempUnit = randomUnit();
+    while (moneyTeam >= minPriceUnit) {
+        shared_ptr<IBaseUnit> tempUnit = generateUnit();
         if (tempUnit == nullptr) {
             continue;
         }
         units.push_back(tempUnit);
-        len++;
+        lenTeam++;
     }
 
     //Выдача щита
-
+    generateShield();
 }
 
-shared_ptr<IBaseUnit> Team::randomUnit() {
-    int i = rand() % 6;
+shared_ptr<IBaseUnit> Team::generateUnit() {
+    int i = rand() % COUNT_OF_UNITS;
 
     switch (i) {
     case 0:
-        if (money < prices[0]) { return nullptr; }
-        else { money -= prices[0]; return make_shared<LowUnit>(); }
+        if (moneyTeam < prices[0]) { return nullptr; }
+        else { moneyTeam -= prices[0]; return make_shared<LowUnit>(); }
         break;
     case 1:
-        if (money < prices[1]) { return nullptr; }
-        else { money -= prices[1]; return make_shared<MediumUnit>(); }
+        if (moneyTeam < prices[1]) { return nullptr; }
+        else { moneyTeam -= prices[1]; return make_shared<MediumUnit>(); }
         break;
     case 2:
-        if (money < prices[2]) { return nullptr; }
-        else { money -= prices[2]; return make_shared<HigtUnit>(); }
+        if (moneyTeam < prices[2]) { return nullptr; }
+        else { moneyTeam -= prices[2]; return make_shared<HigtUnit>(); }
         break;
     case 3:
-        if (money < prices[3]) { return nullptr; }
-        else { money -= prices[3]; return make_shared<ArcherUnit>(); }
+        if (moneyTeam < prices[3]) { return nullptr; }
+        else { moneyTeam -= prices[3]; return make_shared<ArcherUnit>(); }
         break;
     case 4:
-        if (money < prices[4]) { return nullptr; }
-        else { money -= prices[4]; return make_shared<HillerUnit>(); }
+        if (moneyTeam < prices[4]) { return nullptr; }
+        else { moneyTeam -= prices[4]; return make_shared<HillerUnit>(); }
         break;
     case 5:
-        if (money < prices[5]) { return nullptr; }
-        else { money -= prices[5]; return make_shared<MagicUnit>(); }
+        if (moneyTeam < prices[5]) { return nullptr; }
+        else { moneyTeam -= prices[5]; return make_shared<MagicUnit>(); }
         break;
     default:
         return nullptr;
         break;
     }
     return nullptr;
+}
+
+void Team::generateShield() {
+    //Средняя цена
+    int sum = 0;
+    for (int i = 0; i < COUNT_OF_UNITS; i++) { sum += prices[i]; }
+    int medPriceUnit = sum / COUNT_OF_UNITS; //Средняя цена
+
+    //Среднее здоровье
+    int healths[COUNT_OF_UNITS] = { lu.getHealth(), mu.getHealth(), hu.getHealth(), au.getHealth(), pu.getHealth(), cu.getHealth() };
+    for (int i = 0; i < COUNT_OF_UNITS; i++) { sum += healths[i]; }
+    int medHealthUnit = sum / COUNT_OF_UNITS; //Среднее здоровье
+
+    int medCountUnits = (startMoney + medPriceUnit / 2) / medPriceUnit; //Среднее количество воинов в команде
+    int medHealthUnits = medCountUnits * medHealthUnit; //Среднее число здоровья на команду
+
+    lenShield = medCountUnits * medLenShild;
+    healthShield = medHealthUnits * medHealthShield;
+    ptrShield = rand() % lenTeam;
+    if (ptrShield + lenShield > lenTeam) { //Сдвигаем щит, если он вышел в бок
+        ptrShield = lenTeam - lenShield;
+    }
 }
 
 int Team::getUnitNumber(shared_ptr<IBaseUnit> unit) {
@@ -88,28 +120,30 @@ bool Team::isUnderShield(shared_ptr<IBaseUnit> unit) {
 }
 
 void Team::print() {
-    cout << "  к" << number << ": ";
+    cout << "  к" << numberTeam << ": ";
 
     //Определение цвета
-    int health, color;
+    int health, color, count = 0;
     for (const auto& unit : units) {
         health = unit->getHealth();
         color = (health == 0 ? 4 : (health == unit->getMAX_HP() ? 2 : 6)); //Окрашиваем в зависимости от уровня здоровья
         if (isUnderShield(unit)) { color += 16; } //Если под щитом, то дополнительно красим
         SetConsoleTextAttribute(hConsole, color);
         cout << unit->getName() << " ";
+        if (health != 0) { count++; }
     }
 
     SetConsoleTextAttribute(hConsole, 7);
-    cout << "(" << len /*units.size()*/ << ")" << endl;
+    cout << "(" << count << ")" << endl;
 }
 
 void Team::deleteDead() {
     int i = 0;
     for (auto it = units.begin(); it != units.end();) { //Перебираем итераторы в списке
         if (!(*it)->getHealth()) { // 0 => воин умер, иначе любое ненулевое значение => воин жив
+            playDeadSound();
             it = units.erase(it);
-            len--;
+            lenTeam--;
             if (i < ptrShield) { //Передвижение щита
                 ptrShield--;
             }
@@ -125,7 +159,7 @@ void Team::deleteDead() {
 }
 
 void Team::move0(Team& enemies) {
-    if (len == 0 || enemies.len == 0) { return; } //Проверка на наличие воинов в команде
+    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
 
     int fullDamage = 0;
     int fullHealth = 0;
@@ -151,11 +185,11 @@ void Team::move0(Team& enemies) {
     fullDamage = 0;
     fullHealth = 0;
 
-    for (index = 0; index < len; index++) { //Ходят маги
+    for (index = 0; index < lenTeam; index++) { //Ходят маги
         auto unit = units[index];
         if (unit->type == 'c') {
             for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом в зоне действия и ищем лёгкого
-                if (i == index || i < 0 || i > len - 1) { continue; } //Проверка на выход массива
+                if (i == index || i < 0 || i > lenTeam - 1) { continue; } //Проверка на выход массива
                 if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не находили
                     copy = unit->chanceUse * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
                 }
@@ -163,7 +197,7 @@ void Team::move0(Team& enemies) {
             if (copy) { //Копируем и вставляем в случае удачи
                 auto position = units.begin() + index;
                 units.insert(position + rand() % 2, make_shared<LowUnit>()); //Вставка перед или после позиции мага
-                len++;
+                lenTeam++;
                 index++;
             }
             copy = false;
