@@ -33,6 +33,8 @@ using namespace std;
 #define k8 56
 #define k9 57
 
+extern void timeSleep(int milliseconds);
+
 
 void printCommands();
 void menuStop();

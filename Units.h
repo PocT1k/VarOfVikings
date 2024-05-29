@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <thread>
-//#include <chrono>
 
 using namespace std;
 
@@ -14,6 +13,7 @@ extern ostream* logStream;
 extern int startMoney; //Стартовые деньги, нужно для рандома копимага
 
 void playDeadSound();
+void timeSleep(int milliseconds = 1000);
 
 
 class IBaseUnit; //-b Базовый воин

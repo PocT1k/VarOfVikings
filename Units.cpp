@@ -3,7 +3,10 @@
 
 void playDeadSound() {
 	cout << "\a";
-	//this_thread::sleep_for(chrono::seconds(1));
+}
+
+void timeSleep(int milliseconds) {
+	this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 
 

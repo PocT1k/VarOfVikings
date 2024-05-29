@@ -118,9 +118,9 @@ int Team::getUnitNumber(shared_ptr<IBaseUnit> unit) {
 
 bool Team::isUnderShield(shared_ptr<IBaseUnit> unit) {
     int numberUnit = getUnitNumber(unit);
-        if (numberUnit >= ptrShield && numberUnit < ptrShield + lenShield) {
-            return true;
-        }
+    if (numberUnit >= ptrShield && numberUnit < ptrShield + lenShield) {
+        return true;
+    }
     return false;
 }
 

@@ -211,12 +211,12 @@ void runSimulation() {
         team1.move0(team2);
         team2.print();
         team2.deleteDead();
-        //this_thread::sleep_for(chrono::seconds(1));
+        timeSleep();
 
         team2.move0(team1);
         team1.print();
         team1.deleteDead();
-        //this_thread::sleep_for(chrono::seconds(1));
+        timeSleep();
     }
     team1.deleteDead();
     team2.deleteDead();
