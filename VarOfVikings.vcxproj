@@ -127,7 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Funsc.cpp" />
     <ClCompile Include="Team.cpp" />
+    <ClCompile Include="Units.cpp" />
     <ClCompile Include="VarOfVikings.cpp" />
   </ItemGroup>
   <ItemGroup>

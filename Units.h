@@ -2,12 +2,18 @@
 #ifndef VAROFVIKINGS_UNITS
 #define VAROFVIKINGS_UNITS
 
+#include <iostream>
 #include <string>
+#include <thread>
+//#include <chrono>
 
 using namespace std;
 
 
-extern int startMoney; //Для рандома копимага
+extern ostream* logStream;
+extern int startMoney; //Стартовые деньги, нужно для рандома копимага
+
+void playDeadSound();
 
 
 class IBaseUnit; //-b Базовый воин
@@ -26,165 +32,70 @@ protected:
 	int MAX_HP; //переменная максимального здоровья
 public:
 	char type = 'b';
+	int numberTeam = 0; //Номер команды - 1 или 2
 	int armor = 0; //броня
 	int damage = 0; //урон
 	int medication = 0; //лечение
-	float chanceDodge = 0; //шанс уклонения 1 = dodge
+	float chanceDodge = 0; //шанс уклонения, 1 = dodge
 	int price; //цена
 	int lenDamage = 0; //Расстояние использования урона
 	int lenUse = 0; //Расстояние использования способностей
 	float chanceUse = 1;
 
-	void takeHealth(int health) { //Функция применения отхила
-		if (this->health <= 0) { //Если текущееЗдоровье = 0, то воин мёртв, отхил не приминяем
-			return;
-		}
-		this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
-		//Если текущееЗдоровье + отхил больше максимального => текущееЗдоровье = максимальное, иначе текущееЗдоровье = текущееЗдоровье + отхил
-	}
-
-	void takeDamage(int damage) { //Функция применения урона
-		damage -= armor; //Уменьшаем урон на значение брони
-		chanceDodge * 100 > rand() % 100 ? damage = 0 : false; //Шанс промаха
-		health - damage < 0 ? health = 0 : health -= damage;
-		//Если текущееЗдоровье - урон меньше 0 => текущееЗдоровье = 0, иначе текущееЗдоровье = текущееЗдоровье - урон
-	}
+	IBaseUnit(int numberTeam) { this->numberTeam = numberTeam; };
+	void takeDamage(int damage); //Функция применения урона
+	void takeHealth(int health); //Функция применения отхила
 
 	//getters & setters
 	int getHealth() { return health; }
 	int getMAX_HP() { return MAX_HP; }
-
 	virtual string getName() = 0;
 };
 
 
 class LowUnit : public IBaseUnit { //Лёгкий воин
 public:
-	LowUnit() {
-		type = 'l';
-
-		health = 25;
-		armor = 0;
-		damage = 30;
-		medication = 0;
-		chanceDodge = 0.5;
-		lenDamage = 0;
-		lenUse = 0;
-		chanceUse = 1;
-
-		price = 100;
-		MAX_HP = health;
-	}
+	LowUnit(int numberTeam);
 	string getName() override { return "Лёгкий"; }
 };
 
 
 class MediumUnit : public IBaseUnit { //Среднйи воин
 public:
-	MediumUnit() {
-		type = 'm';
-
-		health = 50;
-		armor = 5;
-		damage = 55;
-		medication = 0;
-		chanceDodge = 0.25;
-		lenDamage = 0;
-		lenUse = 0;
-		chanceUse = 1;
-
-		price = 250;
-		MAX_HP = health;
-	}
+	MediumUnit(int numberTeam);
 	string getName() override { return "Средний"; }
 };
 
 
 class HigtUnit : public IBaseUnit { //Тяжёлый воин
 public:
-	int buff = 0; //Улучшение
+	int mod = 0; //Улучшение
 
-	HigtUnit() {
-		type = 'h';
+	HigtUnit(int numberTeam);
 
-		health = 100;
-		armor = 25;
-		damage = 95;
-		medication = 0;
-		chanceDodge = 0;
-		lenDamage = 0;
-		lenUse = 0;
-		chanceUse = 1;
-
-		price = 350;
-		MAX_HP = health;
-	}
-	void upgrade(); //TODO
-	string getName() override { return "Тяжёлый"; }
+	void upgrade(); //Функция прокачки
+	string names[5] = { "ёлый", ".1", ".2", ".3", ".4" };
+	string getName() override { return "Тяж" + names[mod]; }
 };
 
 
 class ArcherUnit : public IBaseUnit { //Воин лучник
 public:
-	ArcherUnit() {
-		type = 'a';
-
-		health = 25;
-		armor = 0;
-		damage = 30;
-		medication = 0;
-		chanceDodge = 0.25;
-		lenDamage = 2;
-		lenUse = 0;
-		chanceUse = 1;
-
-		price = 200;
-		MAX_HP = health;
-	}
+	ArcherUnit(int numberTeam);
 	string getName() override { return "Лучник"; }
 };
 
 
 class HillerUnit : public IBaseUnit { //Лечащий воин
 public:
-	HillerUnit() {
-		type = 'p';
-
-		health = 25;
-		armor = 0;
-		damage = 30;
-		medication = 25;
-		chanceDodge = 0;
-		lenDamage = 0;
-		lenUse = 1;
-		chanceUse = 0.25;
-
-		price = 150;
-		MAX_HP = health;
-	}
+	HillerUnit(int numberTeam);
 	string getName() override { return "Хиллер"; }
 };
 
 
 class MagicUnit : public IBaseUnit { //Копирующий воин
 public:
-	MagicUnit() {
-		type = 'c';
-
-		health = 25;
-		armor = 0;
-		damage = 30;
-		medication = 0;
-		chanceDodge = 0;
-		lenDamage = 0;
-		lenUse = 1;
-		chanceUse = 1.0 / (startMoney / 250); //2500 sM => 0.1, 25000 sM => 0.01
-		chanceUse > 0.5 ? chanceUse = 0.5 : false; /*Не даём шансу копирования стать слишком большим при малых деньгах
-		и делаем его маленьким при большом количестве денег и воинов*/
-
-		price = 400;
-		MAX_HP = health;
-	}
+	MagicUnit(int numberTeam);
 	string getName() override { return "Копимаг"; }
 };
 

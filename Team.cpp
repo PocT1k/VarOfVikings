@@ -1,29 +1,23 @@
 ﻿#include "Team.h"
 
+
 extern float medLenShild;
 extern float medHealthShield;
+extern ostream* logStream;
 
 //Хендл консоли
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-LowUnit lu;
-MediumUnit mu;
-HigtUnit hu;
-ArcherUnit au;
-HillerUnit pu;
-MagicUnit cu;
+LowUnit lu(0);
+MediumUnit mu(0);
+HigtUnit hu(0);
+ArcherUnit au(0);
+HillerUnit pu(0);
+MagicUnit cu(0);
 IBaseUnit* unitsArr[COUNT_OF_UNITS] = { &lu, &mu, &hu, &au, &pu, &cu };
-
 //Минимальная цена
 int prices[COUNT_OF_UNITS] = { lu.price, mu.price, hu.price, au.price, pu.price, cu.price };
 int minPriceUnit = *std::min_element(prices, prices + COUNT_OF_UNITS); //Минимальная цена
-
-
-void playDeadSound();
-
-void playDeadSound() {
-    cout << "\a";
-}
 
 
 Team::Team(int number) {
@@ -32,7 +26,7 @@ Team::Team(int number) {
 
     //Заполнение войск
     while (moneyTeam >= minPriceUnit) {
-        shared_ptr<IBaseUnit> tempUnit = generateUnit();
+        shared_ptr<IBaseUnit> tempUnit = generateUnit(number);
         if (tempUnit == nullptr) {
             continue;
         }
@@ -42,35 +36,37 @@ Team::Team(int number) {
 
     //Выдача щита
     generateShield();
+
+    if (logStream != nullptr) { (*logStream) << "Генерация команды №" << numberTeam << " (завершена)" << endl; }
 }
 
-shared_ptr<IBaseUnit> Team::generateUnit() {
+shared_ptr<IBaseUnit> Team::generateUnit(int number) {
     int i = rand() % COUNT_OF_UNITS;
 
     switch (i) {
     case 0:
         if (moneyTeam < prices[0]) { return nullptr; }
-        else { moneyTeam -= prices[0]; return make_shared<LowUnit>(); }
+        else { moneyTeam -= prices[0]; return make_shared<LowUnit>(number); }
         break;
     case 1:
         if (moneyTeam < prices[1]) { return nullptr; }
-        else { moneyTeam -= prices[1]; return make_shared<MediumUnit>(); }
+        else { moneyTeam -= prices[1]; return make_shared<MediumUnit>(number); }
         break;
     case 2:
         if (moneyTeam < prices[2]) { return nullptr; }
-        else { moneyTeam -= prices[2]; return make_shared<HigtUnit>(); }
+        else { moneyTeam -= prices[2]; return make_shared<HigtUnit>(number); }
         break;
     case 3:
         if (moneyTeam < prices[3]) { return nullptr; }
-        else { moneyTeam -= prices[3]; return make_shared<ArcherUnit>(); }
+        else { moneyTeam -= prices[3]; return make_shared<ArcherUnit>(number); }
         break;
     case 4:
         if (moneyTeam < prices[4]) { return nullptr; }
-        else { moneyTeam -= prices[4]; return make_shared<HillerUnit>(); }
+        else { moneyTeam -= prices[4]; return make_shared<HillerUnit>(number); }
         break;
     case 5:
         if (moneyTeam < prices[5]) { return nullptr; }
-        else { moneyTeam -= prices[5]; return make_shared<MagicUnit>(); }
+        else { moneyTeam -= prices[5]; return make_shared<MagicUnit>(number); }
         break;
     default:
         return nullptr;
@@ -98,6 +94,18 @@ void Team::generateShield() {
     ptrShield = rand() % lenTeam;
     if (ptrShield + lenShield > lenTeam) { //Сдвигаем щит, если он вышел в бок
         ptrShield = lenTeam - lenShield;
+    }
+}
+
+void Team::takeDamage(int damage) { //Функция применения урона для щита команды
+    if (healthShield == 0) { return; } //Выходим, если щит уже снесён
+    healthShield -= damage; //Применяем урон
+    if (logStream != nullptr) { (*logStream) << "Щит команды №" << numberTeam << " получил урон " << damage << endl; }
+
+    if (healthShield <= 0) { //Проверяем не снесли ли щит. Если да, то убираем щит
+        healthShield = 0;
+        lenShield = 0;
+        if (logStream != nullptr) { (*logStream) << "Щит команды №" << numberTeam << " сломан" << endl; }
     }
 }
 
@@ -141,7 +149,6 @@ void Team::deleteDead() {
     int i = 0;
     for (auto it = units.begin(); it != units.end();) { //Перебираем итераторы в списке
         if (!(*it)->getHealth()) { // 0 => воин умер, иначе любое ненулевое значение => воин жив
-            playDeadSound();
             it = units.erase(it);
             lenTeam--;
             if (i < ptrShield) { //Передвижение щита
@@ -196,7 +203,7 @@ void Team::move0(Team& enemies) {
             }
             if (copy) { //Копируем и вставляем в случае удачи
                 auto position = units.begin() + index;
-                units.insert(position + rand() % 2, make_shared<LowUnit>()); //Вставка перед или после позиции мага
+                units.insert(position + rand() % 2, make_shared<LowUnit>(unit->numberTeam)); //Вставка перед или после позиции мага
                 lenTeam++;
                 index++;
             }

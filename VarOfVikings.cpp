@@ -1,7 +1,5 @@
 ﻿/*************************************************************
-*                              /|-   />                      *
-*                Плешка    <========//                       *
-*                              \|-                           *
+*                РЭУ   3 КУРС                                *
 *------------------------------------------------------------*
 * Project Type   : Win32 Console Application                 *
 * Project Name   : VarOfVikings                              *
@@ -14,7 +12,7 @@
 * Last Revision  : 24/03/24                                  *
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
-//Логирование, щит, стратегии, апдейт тяжёлого
+//Логирование, щит, стратегии, апдейт тяжёлого TODO
 
 #include <windows.h>
 #include <iostream>
@@ -48,7 +46,7 @@ start:
         case kESC:
             run = 0;
             menuClear();
-            cout << "Программа остановлена" << endl;
+            cout << "Выход из программы" << endl;
             goto end;
             break;
         case k1:
@@ -59,6 +57,9 @@ start:
             break;
         case k3:
             editStrateg();
+            break;
+        case k4:
+            editStream();
             break;
         case k0:
             outInfo();
