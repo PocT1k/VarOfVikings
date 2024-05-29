@@ -191,19 +191,35 @@ void runSimulation() {
 
     unsigned int motion = 0; //Номер хода
     while (team1.lenTeam != 0 && team2.lenTeam != 0) { //Цикл боя
-        //Ход
-        team1.move0(team2);
-        team2.move0(team1);
+        ////Ход
+        //team1.move0(team2);
+        //team2.move0(team1);
 
-        //Результаты
+        ////Результаты
+        //cout << ++motion << " ход: " << endl;
+        //team1.print();
+        //team2.print();
+
+        ////Удаление мёртвых
+        //team1.deleteDead();
+        //team2.deleteDead();
+
+        /*Сверху бойцы удаляются после хода обоих команд, снизу - сразу после хода одной команды*/
+
         cout << ++motion << " ход: " << endl;
-        team1.print();
-        team2.print();
 
-        //Удаление мёртвых
-        team1.deleteDead();
+        team1.move0(team2);
+        team2.print();
         team2.deleteDead();
+        //this_thread::sleep_for(chrono::seconds(1));
+
+        team2.move0(team1);
+        team1.print();
+        team1.deleteDead();
+        //this_thread::sleep_for(chrono::seconds(1));
     }
+    team1.deleteDead();
+    team2.deleteDead();
 
     if (team1.lenTeam == 0 && team2.lenTeam == 0) {
         cout << endl << endl << "Обе команы полностью убили друг друга" << endl;
