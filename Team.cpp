@@ -1,13 +1,10 @@
 ﻿#include "Team.h"
 
 
-extern float medLenShild;
-extern float medHealthShield;
-extern ostream* logStream;
-
 //Хендл консоли
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+//Создание массива воинов, нужно для просчёта параметров
 LowUnit lu(0);
 MediumUnit mu(0);
 HigtUnit hu(0);
@@ -100,12 +97,12 @@ void Team::generateShield() {
 void Team::takeDamage(int damage) { //Функция применения урона для щита команды
     if (healthShield == 0) { return; } //Выходим, если щит уже снесён
     healthShield -= damage; //Применяем урон
-    if (logStream != nullptr) { (*logStream) << "Щит команды №" << numberTeam << " получил урон " << damage << endl; }
+    if (logStream != nullptr) { (*logStream) << "Щит к" << numberTeam << " получил урон " << damage << endl; }
 
     if (healthShield <= 0) { //Проверяем не снесли ли щит. Если да, то убираем щит
         healthShield = 0;
         lenShield = 0;
-        if (logStream != nullptr) { (*logStream) << "Щит команды №" << numberTeam << " сломан" << endl; }
+        if (logStream != nullptr) { (*logStream) << "Щит к" << numberTeam << " сломан" << endl; }
     }
 }
 
@@ -175,7 +172,12 @@ void Team::move0(Team& enemies) {
 
     for (auto unit : units) { //Вся комманда пытается ударить первого
         if (unit->lenDamage >= index) { //Применение дамага если позволяет расстояние
-            fullDamage += unit->damage;
+            if (isUnderShield(unit)) { //Если воин под щитом, то атакуем щит
+                //fullDamage += unit->damage;
+            }
+            else { //Если воин не под щитом, то атакуем воина
+                fullDamage += unit->damage;
+            }
         }
 
         if (unit->type == 'p') { //Дополнительно ходят хиллеры

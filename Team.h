@@ -13,10 +13,14 @@
 
 using namespace std;
 
+
 #define COUNT_OF_UNITS 6
 
 extern int startMoney;
 extern int minPriceUnit;
+extern float medLenShild;
+extern float medHealthShield;
+extern ostream* logStream;
 
 
 class Team;

@@ -8,33 +8,22 @@ void playDeadSound() {
 
 
 void IBaseUnit::takeDamage(int damage) {
-	if (health == 0) { //Выходим, если воин уже мёртв
-		return;
-	}
+	if (health == 0) { return; } //Выходим, если воин уже мёртв
 	if (chanceDodge * 100 > rand() % 100) { //Шанс промаха
-		if (logStream != nullptr) { (*logStream) << "к" << numberTeam << endl; }
+		if (logStream != nullptr) { (*logStream) << "  | " << getName() << " из к" << numberTeam << " увернулся от атаки" << endl; }
 		return;
 	}
 
 	damage -= armor; //Уменьшаем урон на значение брони
 	health -= damage; //Применяем урон
+	if (logStream != nullptr) { (*logStream) << "  V " << getName() << " из к" << numberTeam << " получил урон " << damage << endl; }
+
 	if (health <= 0) { //Воин мёртв
 		health = 0;
 		playDeadSound();
+		if (logStream != nullptr) { (*logStream) << " X " << getName() << " из к" << numberTeam << " умер" << endl; }
 	}
 }
-
-//void Team::takeDamage(int damage) { //Функция применения урона для щита команды
-//	if (healthShield == 0) { return; } //Выходим, если щит уже снесён
-//	healthShield -= damage; //Применяем урон
-//	if (logStream != nullptr) { (*logStream) << "Щит команды №" << numberTeam << " получил урон " << damage << endl; }
-//
-//	if (healthShield <= 0) { //Проверяем не снесли ли щит. Если да, то убираем щит
-//		healthShield = 0;
-//		lenShield = 0;
-//		if (logStream != nullptr) { (*logStream) << "Щит команды №" << numberTeam << " сломан" << endl; }
-//	}
-//}
 
 void IBaseUnit::takeHealth(int health) {
 	if (this->health <= 0) { //Если текущееЗдоровье = 0, то воин мёртв, отхил не приминяем

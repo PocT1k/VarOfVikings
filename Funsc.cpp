@@ -209,7 +209,7 @@ void runSimulation() {
         cout << endl << endl << "Обе команы полностью убили друг друга" << endl;
         cout << endl << "Бой завершён, результат ничья" << endl;
 
-        if (logStream != nullptr) { (*logStream) << endl << "Бой завершён, результат ничья" << endl; }
+        if (logStream != nullptr && logStream != &cout) { (*logStream) << "Бой завершён, результат ничья" << endl; }
     }
     else {
         Team* team = (team2.lenTeam == 0 ? &team1 : &team2);
@@ -217,7 +217,7 @@ void runSimulation() {
         team->print();
         cout << endl << "Бой завершён, победила команда " << team->numberTeam << endl;
 
-        if (logStream != nullptr) { (*logStream) << endl << "Бой завершён, победила команда " << team->numberTeam << endl; }
+        if (logStream != nullptr && logStream != &cout) { (*logStream) << "Бой завершён, победила команда " << team->numberTeam << endl; }
     }
-    if (logStream != nullptr) { (*logStream) << endl; }
+    if (logStream != nullptr && logStream != &cout) { (*logStream) << endl; }
 }
