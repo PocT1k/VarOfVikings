@@ -97,12 +97,12 @@ void Team::generateShield() {
 void Team::takeDamage(int damage) { //Функция применения урона для щита команды
     if (healthShield == 0) { return; } //Выходим, если щит уже снесён
     healthShield -= damage; //Применяем урон
-    if (logStream != nullptr) { (*logStream) << "Щит к" << numberTeam << " получил урон " << damage << endl; }
+    if (logStream != nullptr) { (*logStream) << "  # " << "Щит к" << numberTeam << " получил урон " << damage << endl; }
 
     if (healthShield <= 0) { //Проверяем не снесли ли щит. Если да, то убираем щит
         healthShield = 0;
         lenShield = 0;
-        if (logStream != nullptr) { (*logStream) << "Щит к" << numberTeam << " сломан" << endl; }
+        if (logStream != nullptr) { (*logStream) << " X# " << "Щит к" << numberTeam << " сломан" << endl; }
     }
 }
 
@@ -184,7 +184,7 @@ void Team::move0(Team& enemies) {
     }
     index = 0;
 
-    if (isUnderShield(enemies.units[0])) { //Приминение дамага
+    if (enemies.isUnderShield(enemies.units[0])) { //Приминение дамага
         enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
     }
     else {
