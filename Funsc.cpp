@@ -9,9 +9,9 @@ unsigned int typeStrateg = 0;
 string arrStrategNames[COUNT_OF_STRATEG] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
 //stream
 unsigned int logStreamNumber = 0;
-string arrLogStreamNames[3] = { "файл", "консоль", "никуда" };
+string arrLogStreamNames[COUNT_OF_STREAM] = { "файл", "консоль", "никуда" };
 ofstream fout("logs.txt");
-ostream* arrLogStreams[3] = { &fout, &cout, nullptr };
+ostream* arrLogStreams[COUNT_OF_STREAM] = { &fout, &cout, nullptr };
 ostream* logStream = arrLogStreams[logStreamNumber];
 
 
@@ -79,7 +79,7 @@ void editStrateg() {
     cout << "Текущее стратегия №" << typeStrateg + 1 << " (" << arrStrategNames[typeStrateg] << ")" << endl;
     cout << endl;
     cout << "Выберите новую стратегию (нажмите соотвествующую клавишу):" << endl;
-    for (int i = 0; i < COUNT_OF_STRATEG; i++) { cout << i + 1 << " " << arrStrategNames[i] << endl; } //печать стратегий
+    for (int i = 0; i < COUNT_OF_STRATEG; i++) { cout << i + 1 << " " << arrStrategNames[i] << endl; } //Печать для вфыбора
 
     char key;
     bool run = 1;
@@ -125,7 +125,7 @@ void editStream() {
     cout << "Сейчас логирование производиться в " << arrLogStreamNames[logStreamNumber] << endl;
     cout << endl;
     cout << "Выберите новое место логирования (нажмите соотвествующую клавишу):" << endl;
-    for (int i = 0; i < 3; i++) { cout << i + 1 << " В " << arrLogStreamNames[i] << endl; }
+    for (int i = 0; i < COUNT_OF_STREAM; i++) { cout << i + 1 << " В " << arrLogStreamNames[i] << endl; } //Печать для вфыбора
 
     char key;
     bool run = 1;
@@ -169,7 +169,7 @@ void outInfo() { //TONOTDO
     void;
     switch (rand()) {
     case 1367:
-        cout << "\7Повезло, повезло" << endl;
+        cout << "\7ООО\nПовезло, повезло" << endl;
         break;
     default:
         cout << "\t " << endl;

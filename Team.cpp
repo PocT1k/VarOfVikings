@@ -170,17 +170,12 @@ void Team::move0(Team& enemies) {
     bool copy = false; //нужно чтобы копирование срабатывало максимум 1 раз за ход
     int index = 0;
 
-    for (auto unit : units) { //Вся комманда пытается ударить первого
+    for (auto unit : units) { //Суммируется урон всех, кто достаёт первого
         if (unit->lenDamage >= index) { //Применение дамага если позволяет расстояние
-            if (isUnderShield(unit)) { //Если воин под щитом, то атакуем щит
-                //fullDamage += unit->damage;
-            }
-            else { //Если воин не под щитом, то атакуем воина
-                fullDamage += unit->damage;
-            }
+            fullDamage += unit->damage;
         }
 
-        if (unit->type == 'p') { //Дополнительно ходят хиллеры
+        if (unit->type == 'p') { //Дополнительно ходят хиллеры, тоже сначала суммируем хил
             if (unit->lenUse >= index) {
                 unit->chanceUse * 100 > rand() % 100 ? fullHealth += unit->medication : false; //Шанс хила
             }
@@ -189,7 +184,12 @@ void Team::move0(Team& enemies) {
     }
     index = 0;
 
-    enemies.units[0]->takeDamage(fullDamage); //Применение дамага
+    if (isUnderShield(enemies.units[0])) { //Приминение дамага
+        enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
+    }
+    else {
+        enemies.units[0]->takeDamage(fullDamage); //Если воин не под щитом, то атакуем воина
+    }
     units[0]->takeHealth(fullHealth); //Применение хила
     fullDamage = 0;
     fullHealth = 0;
