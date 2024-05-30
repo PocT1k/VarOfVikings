@@ -2,7 +2,7 @@
 
 
 void playDeadSound() {
-	cout << "\a";
+	//cout << "\a";
 }
 
 void timeSleep(int milliseconds) {

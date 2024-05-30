@@ -45,6 +45,7 @@ public:
 	bool isUnderShield(shared_ptr<IBaseUnit> unit); //Узнать под щитом воин или инет
 	void print(); //Печать команды
 	void deleteDead(); //Удаление мёртвых бойцов
+	void moveMagicUpgradeHigt(); //Ходят маги и улучшаются тяжёлые
 	void move0(Team& enemies); //Ход первой стратегией
 	void move1(Team& enemies); //Ход второй стратегией
 	void move2(Team& enemies); //Ход третьей стратегией

@@ -5,7 +5,7 @@
 extern int startMoney;
 int standartMoney = startMoney;
 //strateg
-unsigned int typeStrateg = 0;
+unsigned int typeStrateg = 1;
 string arrStrategNames[COUNT_OF_STRATEG] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
 //stream
 unsigned int logStreamNumber = 0;

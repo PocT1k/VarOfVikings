@@ -162,40 +162,12 @@ void Team::deleteDead() {
     }
 }
 
-void Team::move0(Team& enemies) {
-    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
-
-    int fullDamage = 0;
-    int fullHealth = 0;
-    int index = 0;
-
-    for (auto unit : units) { //Суммируется урон всех, кто достаёт первого
-        if (unit->lenDamage >= index) { //Применение дамага если позволяет расстояние
-            fullDamage += unit->damage;
-        }
-
-        if (unit->type == 'p') { //Дополнительно ходят хиллеры, тоже сначала суммируем хил
-            if (unit->lenUse >= index) {
-                unit->chanceUseAbility * 100 > rand() % 100 ? fullHealth += unit->medication : false; //Шанс хила
-            }
-        }
-        index++;
-    }
-    index = 0;
-
-    if (enemies.isUnderShield(enemies.units[0])) { //Приминение дамага
-        enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
-    }
-    else {
-        enemies.units[0]->takeDamage(fullDamage); //Если воин не под щитом, то атакуем воина
-    }
-    units[0]->takeHealth(fullHealth); //Применение хила
-    fullDamage = 0;
-    fullHealth = 0;
-
+void Team::moveMagicUpgradeHigt() {
     bool copy = false;
     bool upgrade = false;
-    for (index = 0; index < lenTeam; index++) { //Ходят маги и улучшаются тяжёлые
+    int index = 0;
+
+    for (index = 0; index < lenTeam; index++) {
         auto unit = units[index];
 
         //Ходят маги
@@ -226,13 +198,80 @@ void Team::move0(Team& enemies) {
             }
         }
     }
+}
+
+void Team::move0(Team& enemies) {
+    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
+
+    int fullDamage = 0;
+    int fullHealth = 0;
+    int index = 0;
+
+    //Атака первого
+    for (auto unit : units) { //Суммируется урон всех, кто достаёт первого
+        if (unit->lenDamage >= index) { //Суммирование дамага если позволяет расстояние
+            fullDamage += unit->damage;
+        }
+
+        if (unit->type == 'p') { //Дополнительно ходят хиллеры, тоже сначала суммируем хил
+            if (unit->lenUse >= index) {
+                unit->chanceUseAbility * 100 > rand() % 100 ? fullHealth += unit->medication : false; //Шанс хила
+            }
+        }
+        index++;
+    }
     index = 0;
+
+    if (enemies.isUnderShield(enemies.units[0])) { //Приминение дамага
+        enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
+    }
+    else {
+        enemies.units[0]->takeDamage(fullDamage); //Если воин не под щитом, то атакуем воина
+    }
+    units[0]->takeHealth(fullHealth); //Применение хила
+
+    moveMagicUpgradeHigt();
 }
 
 void Team::move1(Team& enemies) {
-    return;
+    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
+    int iMax = min(lenTeam, enemies.lenTeam); //Какая минимальная длинна команды
+    cout << "iMax: " << iMax << endl;
+
+    //Атака стенка на стенку
+
+    for (int i = 0; i < iMax - 1; i++) {
+        cout << "i: " << i << endl;
+        if (enemies.isUnderShield(enemies.units[i])) { //Приминение дамага
+            enemies.takeDamage(units[i]->damage); //Если воин под щитом, то атакуем щит
+        }
+        else {
+            enemies.units[i]->takeDamage(units[i]->damage); //Если воин не под щитом, то атакуем воина
+        }
+    }
+
+    int fullDamage = 0;
+    int fullHealth = 0;
+
+    //Атака последнего
+    for (int i = iMax; i < lenTeam - 1; i++) { //Суммируется урон всех, кто достаёт последнего
+        if (units[i]->lenDamage >= i - iMax) { //Суммирование дамага если позволяет расстояние
+            fullDamage += units[i]->damage;
+        }
+    }
+
+    if (enemies.isUnderShield(enemies.units[iMax])) { //Приминение дамага
+        enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
+    }
+    else {
+        enemies.units[iMax]->takeDamage(fullDamage); //Если воин не под щитом, то атакуем воина
+    }
+    //units[0123456]->takeHealth(fullHealth); //Применение хила
+
+    //moveMagicUpgradeHigt();
 }
 
 void Team::move2(Team& enemies) {
-    return;
+    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
+    void;
 }
