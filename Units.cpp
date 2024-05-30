@@ -38,21 +38,21 @@ void IBaseUnit::takeHealth(int health) {
 }
 
 void IBaseUnit::upgrade() {
-	if (mod != 0) { return; } //Уже апгреднут
+	if (mod != 0) { return; } //Уже улучшен
 
 	mod = rand() % 4 + 1; // от 1 до 4
 	switch (mod) {
-	case 1:
+	case 1: //Улучшение здоровья
 		health = health + health * 0.5;
 		MAX_HP *= 1.5;
 		break;
-	case 2:
-		armor *= 1.5;
+	case 2: //Улучшение брони
+		armor *= 2;
 		break;
-	case 3:
-		damage *= 1.5;
+	case 3: //Улучшение урона
+		damage *= 2.5;
 		break;
-	case 4:
+	case 4: //Улучшение шанса уклонения
 		chanceDodge = 0.25;
 		break;
 	}
