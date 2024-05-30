@@ -32,6 +32,7 @@ protected:
 	int MAX_HP; //переменная максимального здоровья
 public:
 	char type = 'b';
+	int mod = 0; //Улучшение (для тяжёлого воина)
 	int numberTeam = 0; //Номер команды - 1 или 2
 	int armor = 0; //броня
 	int damage = 0; //урон
@@ -40,11 +41,12 @@ public:
 	int price; //цена
 	int lenDamage = 0; //Расстояние использования урона
 	int lenUse = 0; //Расстояние использования способностей
-	float chanceUse = 1;
+	float chanceUseAbility = 0;
 
 	IBaseUnit(int numberTeam) { this->numberTeam = numberTeam; };
 	void takeDamage(int damage); //Функция применения урона
 	void takeHealth(int health); //Функция применения отхила
+	void upgrade(); //Функция прокачки (для тяжёлого воина)
 
 	//getters & setters
 	int getHealth() { return health; }
@@ -69,12 +71,8 @@ public:
 
 class HigtUnit : public IBaseUnit { //Тяжёлый воин
 public:
-	int mod = 0; //Улучшение
-
 	HigtUnit(int numberTeam);
-
-	void upgrade(); //Функция прокачки
-	string names[5] = { "ёлый", ".1", ".2", ".3", ".4" };
+	string names[5] = { "ёлый", ".здор", ".брон", ".урон", ".увар" };
 	string getName() override { return "Тяж" + names[mod]; }
 };
 

@@ -167,7 +167,6 @@ void Team::move0(Team& enemies) {
 
     int fullDamage = 0;
     int fullHealth = 0;
-    bool copy = false; //нужно чтобы копирование срабатывало максимум 1 раз за ход
     int index = 0;
 
     for (auto unit : units) { //Суммируется урон всех, кто достаёт первого
@@ -177,7 +176,7 @@ void Team::move0(Team& enemies) {
 
         if (unit->type == 'p') { //Дополнительно ходят хиллеры, тоже сначала суммируем хил
             if (unit->lenUse >= index) {
-                unit->chanceUse * 100 > rand() % 100 ? fullHealth += unit->medication : false; //Шанс хила
+                unit->chanceUseAbility * 100 > rand() % 100 ? fullHealth += unit->medication : false; //Шанс хила
             }
         }
         index++;
@@ -194,23 +193,46 @@ void Team::move0(Team& enemies) {
     fullDamage = 0;
     fullHealth = 0;
 
-    for (index = 0; index < lenTeam; index++) { //Ходят маги
+    bool copy = false;
+    bool upgrade = false;
+    for (index = 0; index < lenTeam; index++) { //Ходят маги и улучшаются тяжёлые
         auto unit = units[index];
+
+        //Ходят маги
         if (unit->type == 'c') {
             for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом в зоне действия и ищем лёгкого
                 if (i == index || i < 0 || i > lenTeam - 1) { continue; } //Проверка на выход массива
-                if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не находили
-                    copy = unit->chanceUse * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
+                if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не было копирования за ход
+                    copy = unit->chanceUseAbility * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
                 }
             }
             if (copy) { //Копируем и вставляем в случае удачи
                 auto position = units.begin() + index;
-                units.insert(position + rand() % 2, make_shared<LowUnit>(unit->numberTeam)); //Вставка перед или после позиции мага
+                units.insert(position + rand() % 2, make_shared<LowUnit>(unit->numberTeam)); //Вставка перед или после (возле) позиции мага
+                if (logStream != nullptr) { (*logStream) << " C " << unit->getName() << " из к" << numberTeam << " скопировал Лёгкого воина" << endl; }
                 lenTeam++;
                 index++;
             }
-            copy = false;
+        }
+
+        //Улучшаются тяжёлые
+        if (unit->type == 'h') {
+            if (unit->mod == 0) { //Если улучшения нет
+                upgrade = unit->chanceUseAbility * 100 > rand() % 100 ? true : false; //Шанс улучшения
+                if (upgrade) {
+                    unit->upgrade();
+                }
+                upgrade = false;
+            }
         }
     }
     index = 0;
+}
+
+void Team::move1(Team& enemies) {
+    return;
+}
+
+void Team::move2(Team& enemies) {
+    return;
 }

@@ -35,7 +35,6 @@ using namespace std;
 
 extern void timeSleep(int milliseconds);
 
-
 void printCommands();
 void menuStop();
 void menuClear();

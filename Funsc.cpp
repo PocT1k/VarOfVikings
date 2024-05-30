@@ -192,11 +192,22 @@ void runSimulation() {
     unsigned int motion = 0; //Ќомер хода
     while (team1.lenTeam != 0 && team2.lenTeam != 0) { //÷икл бо€
         ////’од
-        //team1.move0(team2);
-        //team2.move0(team1);
+        //switch (typeStrateg) {
+        //case 0: team1.move0(team2); break;
+        //case 1: team1.move1(team2); break;
+        //case 2: team1.move2(team2); break;
+        //default: break;
+        //}
+        //switch (typeStrateg) {
+        //case 0: team2.move0(team1); break;
+        //case 1: team2.move1(team1); break;
+        //case 2: team2.move2(team1); break;
+        //default: break;
+        //}
 
         ////–езультаты
         //cout << ++motion << " ход: " << endl;
+        //if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
         //team1.print();
         //team2.print();
 
@@ -204,16 +215,29 @@ void runSimulation() {
         //team1.deleteDead();
         //team2.deleteDead();
 
-        /*—верху бойцы удал€ютс€ после хода обоих команд, снизу - сразу после хода одной команды*/
 
+        /******* —верху бойцы удал€ютс€ после хода обоих команд, снизу - сразу после хода одной команды *******/
+
+        //’од
         cout << ++motion << " ход: " << endl;
+        if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
 
-        team1.move0(team2);
+        switch (typeStrateg) {
+        case 0: team1.move0(team2); break;
+        case 1: team1.move1(team2); break;
+        case 2: team1.move2(team2); break;
+        default: break;
+        }
         team2.print();
         team2.deleteDead();
         timeSleep();
 
-        team2.move0(team1);
+        switch (typeStrateg) {
+        case 0: team2.move0(team1); break;
+        case 1: team2.move1(team1); break;
+        case 2: team2.move2(team1); break;
+        default: break;
+        }
         team1.print();
         team1.deleteDead();
         timeSleep();

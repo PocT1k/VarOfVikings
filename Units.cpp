@@ -6,7 +6,7 @@ void playDeadSound() {
 }
 
 void timeSleep(int milliseconds) {
-	this_thread::sleep_for(chrono::milliseconds(milliseconds));
+	//this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 
 
@@ -34,6 +34,29 @@ void IBaseUnit::takeHealth(int health) {
 	}
 	this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
 	//≈сли текущее«доровье + отхил больше максимального => текущее«доровье = максимальное, иначе текущее«доровье = текущее«доровье + отхил
+	if (logStream != nullptr) { (*logStream) << " H " << getName() << " из к" << numberTeam << " получил лечение " << health << endl; }
+}
+
+void IBaseUnit::upgrade() {
+	if (mod != 0) { return; } //”же апгреднут
+
+	mod = rand() % 4 + 1; // от 1 до 4
+	switch (mod) {
+	case 1:
+		health = health + health * 0.5;
+		MAX_HP *= 1.5;
+		break;
+	case 2:
+		armor *= 1.5;
+		break;
+	case 3:
+		damage *= 1.5;
+		break;
+	case 4:
+		chanceDodge = 0.25;
+		break;
+	}
+	if (logStream != nullptr) { (*logStream) << " U " << "“€жЄлый" << " из к" << numberTeam << " улучшилс€ до " << getName() << endl; }
 }
 
 
@@ -47,11 +70,12 @@ LowUnit::LowUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	chanceDodge = 0.5;
 	lenDamage = 0;
 	lenUse = 0;
-	chanceUse = 1;
+	chanceUseAbility = 0;
 
 	price = 100;
 	MAX_HP = health;
 }
+
 
 MediumUnit::MediumUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	type = 'm';
@@ -63,11 +87,12 @@ MediumUnit::MediumUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	chanceDodge = 0.25;
 	lenDamage = 0;
 	lenUse = 0;
-	chanceUse = 1;
+	chanceUseAbility = 0;
 
 	price = 250;
 	MAX_HP = health;
 }
+
 
 HigtUnit::HigtUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	type = 'h';
@@ -79,15 +104,14 @@ HigtUnit::HigtUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	chanceDodge = 0;
 	lenDamage = 0;
 	lenUse = 0;
-	chanceUse = 1;
+	chanceUseAbility = 1.0 / (startMoney / 250); //2500 sM => 0.1, 25000 sM => 0.01
+	chanceUseAbility > 0.5 ? chanceUseAbility = 0.5 : false; /*Ќе даЄм шансу стать слишком большим при малых деньгах
+	и делаем его маленьким при большом количестве денег и воинов*/
 
 	price = 350;
 	MAX_HP = health;
 }
 
-void HigtUnit::upgrade() { //TODO
-	return;
-}
 
 ArcherUnit::ArcherUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	type = 'a';
@@ -99,11 +123,12 @@ ArcherUnit::ArcherUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	chanceDodge = 0.25;
 	lenDamage = 2;
 	lenUse = 0;
-	chanceUse = 1;
+	chanceUseAbility = 0;
 
 	price = 200;
 	MAX_HP = health;
 }
+
 
 HillerUnit::HillerUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	type = 'p';
@@ -115,11 +140,12 @@ HillerUnit::HillerUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	chanceDodge = 0;
 	lenDamage = 0;
 	lenUse = 1;
-	chanceUse = 0.25;
+	chanceUseAbility = 0.25;
 
 	price = 150;
 	MAX_HP = health;
 }
+
 
 MagicUnit::MagicUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	type = 'c';
@@ -131,8 +157,8 @@ MagicUnit::MagicUnit(int numberTeam) : IBaseUnit(numberTeam) {
 	chanceDodge = 0;
 	lenDamage = 0;
 	lenUse = 1;
-	chanceUse = 1.0 / (startMoney / 250); //2500 sM => 0.1, 25000 sM => 0.01
-	chanceUse > 0.5 ? chanceUse = 0.5 : false; /*Ќе даЄм шансу копировани€ стать слишком большим при малых деньгах
+	chanceUseAbility = 1.0 / (startMoney / 250); //2500 sM => 0.1, 25000 sM => 0.01
+	chanceUseAbility > 0.5 ? chanceUseAbility = 0.5 : false; /*Ќе даЄм шансу стать слишком большим при малых деньгах
 	и делаем его маленьким при большом количестве денег и воинов*/
 
 	price = 400;

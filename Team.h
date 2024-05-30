@@ -46,6 +46,8 @@ public:
 	void print(); //Печать команды
 	void deleteDead(); //Удаление мёртвых бойцов
 	void move0(Team& enemies); //Ход первой стратегией
+	void move1(Team& enemies); //Ход второй стратегией
+	void move2(Team& enemies); //Ход третьей стратегией
 };
 
 
