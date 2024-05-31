@@ -21,6 +21,7 @@ extern int minPriceUnit;
 extern float medLenShild;
 extern float medHealthShield;
 extern ostream* logStream;
+extern HANDLE hConsole;
 
 
 class Team;
@@ -45,7 +46,8 @@ public:
 	bool isUnderShield(shared_ptr<IBaseUnit> unit); //Узнать под щитом воин или инет
 	void print(); //Печать команды
 	void deleteDead(); //Удаление мёртвых бойцов
-	void moveMagicUpgradeHigt(); //Ходят маги и улучшаются тяжёлые
+	void moveMagic(); //Ходят маги
+	void UpgradeHigt1(); //Улучшаются тяжёлые первый способ
 	void move0(Team& enemies); //Ход первой стратегией
 	void move1(Team& enemies); //Ход второй стратегией
 	void move2(Team& enemies); //Ход третьей стратегией

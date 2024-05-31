@@ -2,11 +2,11 @@
 
 
 void playDeadSound() {
-	//cout << "\a";
+	cout << "\a";
 }
 
 void timeSleep(int milliseconds) {
-	//this_thread::sleep_for(chrono::milliseconds(milliseconds));
+	this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 
 
@@ -35,28 +35,6 @@ void IBaseUnit::takeHealth(int health) {
 	this->health + health > MAX_HP ? health = MAX_HP : this->health += health;
 	//≈сли текущее«доровье + отхил больше максимального => текущее«доровье = максимальное, иначе текущее«доровье = текущее«доровье + отхил
 	if (logStream != nullptr) { (*logStream) << " H " << getName() << " из к" << numberTeam << " получил лечение " << health << endl; }
-}
-
-void IBaseUnit::upgrade() {
-	if (mod != 0) { return; } //”же улучшен
-
-	mod = rand() % 4 + 1; // от 1 до 4
-	switch (mod) {
-	case 1: //”лучшение здоровь€
-		health = health + health * 0.5;
-		MAX_HP *= 1.5;
-		break;
-	case 2: //”лучшение брони
-		armor *= 2;
-		break;
-	case 3: //”лучшение урона
-		damage *= 2.5;
-		break;
-	case 4: //”лучшение шанса уклонени€
-		chanceDodge = 0.25;
-		break;
-	}
-	if (logStream != nullptr) { (*logStream) << " U " << "“€жЄлый" << " из к" << numberTeam << " улучшилс€ до " << getName() << endl; }
 }
 
 
@@ -110,6 +88,28 @@ HigtUnit::HigtUnit(int numberTeam) : IBaseUnit(numberTeam) {
 
 	price = 350;
 	MAX_HP = health;
+}
+
+void HigtUnit::upgrade() {
+	if (mod != 0) { return; } //”же улучшен
+
+	mod = rand() % 4 + 1; // от 1 до 4
+	switch (mod) {
+	case 1: //”лучшение здоровь€
+		health = health + health * 0.5;
+		MAX_HP *= 1.5;
+		break;
+	case 2: //”лучшение дальности поражени€
+		lenDamage += 1;
+		break;
+	case 3: //”лучшение урона
+		damage *= 2.5;
+		break;
+	case 4: //”лучшение шанса уклонени€
+		chanceDodge = 0.25;
+		break;
+	}
+	if (logStream != nullptr) { (*logStream) << " U " << "“€жЄлый" << " из к" << numberTeam << " улучшилс€ до " << getName() << endl; }
 }
 
 

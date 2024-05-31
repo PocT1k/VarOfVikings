@@ -12,7 +12,6 @@
 * Last Revision  : 24/03/24                                  *
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
-//Стратегии, Апдейт тяжёлого TODO
 
 #include <windows.h>
 #include <iostream>
@@ -32,6 +31,7 @@ int main() {
     SetConsoleCP(65001);
     system("chcp 65001 > nul");
     srand(time(nullptr));
+    SetConsoleTextAttribute(hConsole, 7);
 
     menuClear();
     printCommands();

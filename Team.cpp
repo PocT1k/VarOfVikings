@@ -162,15 +162,13 @@ void Team::deleteDead() {
     }
 }
 
-void Team::moveMagicUpgradeHigt() {
+void Team::moveMagic() {
     bool copy = false;
-    bool upgrade = false;
     int index = 0;
 
     for (index = 0; index < lenTeam; index++) {
         auto unit = units[index];
 
-        //Ходят маги
         if (unit->type == 'c') {
             for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом в зоне действия и ищем лёгкого
                 if (i == index || i < 0 || i > lenTeam - 1) { continue; } //Проверка на выход массива
@@ -186,8 +184,16 @@ void Team::moveMagicUpgradeHigt() {
                 index++;
             }
         }
+    }
+}
 
-        //Улучшаются тяжёлые
+void Team::UpgradeHigt1() {
+    bool upgrade = false;
+    int index = 0;
+
+    for (index = 0; index < lenTeam; index++) {
+        auto unit = units[index];
+
         if (unit->type == 'h') {
             if (unit->mod == 0) { //Если улучшения нет
                 upgrade = unit->chanceUseAbility * 100 > rand() % 100 ? true : false; //Шанс улучшения
@@ -230,18 +236,16 @@ void Team::move0(Team& enemies) {
     }
     units[0]->takeHealth(fullHealth); //Применение хила
 
-    moveMagicUpgradeHigt();
+    moveMagic();
+    UpgradeHigt1();
 }
 
 void Team::move1(Team& enemies) {
     if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
-    int iMax = min(lenTeam, enemies.lenTeam); //Какая минимальная длинна команды
-    cout << "iMax: " << iMax << endl;
+    int iMax = min(lenTeam, enemies.lenTeam) - 1; //Какая минимальная длинна команды, считая от 0
 
     //Атака стенка на стенку
-
     for (int i = 0; i < iMax - 1; i++) {
-        cout << "i: " << i << endl;
         if (enemies.isUnderShield(enemies.units[i])) { //Приминение дамага
             enemies.takeDamage(units[i]->damage); //Если воин под щитом, то атакуем щит
         }
@@ -251,24 +255,41 @@ void Team::move1(Team& enemies) {
     }
 
     int fullDamage = 0;
-    int fullHealth = 0;
 
     //Атака последнего
     for (int i = iMax; i < lenTeam - 1; i++) { //Суммируется урон всех, кто достаёт последнего
         if (units[i]->lenDamage >= i - iMax) { //Суммирование дамага если позволяет расстояние
             fullDamage += units[i]->damage;
         }
-    }
-
+    } //for
     if (enemies.isUnderShield(enemies.units[iMax])) { //Приминение дамага
         enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
     }
     else {
         enemies.units[iMax]->takeDamage(fullDamage); //Если воин не под щитом, то атакуем воина
     }
-    //units[0123456]->takeHealth(fullHealth); //Применение хила
 
-    //moveMagicUpgradeHigt();
+    int index = 0;
+
+    //Ходят хиллеры
+    for (auto unit : units) {
+        if (unit->type == 'p') { //Если хиллер
+            if (unit->chanceUseAbility * 100 > rand() % 100) { //Прокаем шанс на хил
+                int pos = rand() % 3 - 1; //-1, 0, 1
+
+                //Проверка на выход из массива
+                if (index + pos < 0) { pos = 0; }
+                if (index + pos > lenTeam - 1) { pos = 0; }
+                //Применение хила
+                units[index + pos]->takeHealth(unit->medication);
+            }
+        }
+        index++;
+    }
+    index = 0;
+
+    moveMagic();
+    UpgradeHigt1();
 }
 
 void Team::move2(Team& enemies) {
