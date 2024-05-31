@@ -228,13 +228,17 @@ void Team::move0(Team& enemies) {
     }
     index = 0;
 
-    if (enemies.isUnderShield(enemies.units[0])) { //Приминение дамага
+    //Приминение дамага
+    if (enemies.isUnderShield(enemies.units[0])) {
         enemies.takeDamage(fullDamage); //Если воин под щитом, то атакуем щит
     }
     else {
         enemies.units[0]->takeDamage(fullDamage); //Если воин не под щитом, то атакуем воина
     }
-    units[0]->takeHealth(fullHealth); //Применение хила
+    //Применение хила
+    if (fullHealth != 0) {
+        units[0]->takeHealth(fullHealth);
+    }
 
     moveMagic();
     UpgradeHigt1();
