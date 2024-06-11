@@ -45,12 +45,16 @@ public:
 	int getUnitNumber(shared_ptr<IBaseUnit> unit); //Узнать №пп воина
 	bool isUnderShield(shared_ptr<IBaseUnit> unit); //Узнать под щитом воин или инет
 	void print(); //Печать команды
-	void deleteDead(); //Удаление мёртвых бойцов
-	void moveMagic(); //Ходят маги
-	void UpgradeHigt1(); //Улучшаются тяжёлые первый способ
-	void move0(Team& enemies); //Ход первой стратегией
-	void move1(Team& enemies); //Ход второй стратегией
-	void move2(Team& enemies); //Ход третьей стратегией
+	void deleteDeads(); //Удаление мёртвых бойцов
+	void deleteUnit(int num = 0); //Удаление бойца по номеру
+	void moveMagic12(); //Ход магов для 1 и 2 стратегии
+	void UpgradeHigt12(); //Улучшение тяжёлых для 1 и 2 стратегии
+	void moveMagic3(); //Ход магов для 3 стратегии
+	void UpgradeHigt3(); //Улучшение тяжёлых для 3 стратегии
+	void move0(Team& enemies); //Ход фиктивной стратегией
+	void move1(Team& enemies); //Ход первой стратегией
+	void move2(Team& enemies); //Ход второй стратегией
+	void move3(Team& enemies); //Ход третьей стратегией
 };
 
 

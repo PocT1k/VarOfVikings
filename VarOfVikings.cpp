@@ -5,11 +5,11 @@
 * Project Name   : VarOfVikings                              *
 * File Name      : VarOfVikings.cpp                          *
 * Language       : C++                                       *
-* Programmers(s) : Чернышёв Е. Дума А.                       *
-* Modifyed by    :                                           *
-* Lit sourse     :                                           *
+* Programmers(s) : Чернышёв Е., Дума А.                      *
+* Modifyed by    : Новиков К.                                *
+* Lit sourse     : https://github.com/PocT1k/VarOfVikings    *
 * Created        : 19/03/24                                  *
-* Last Revision  : 24/03/24                                  *
+* Last Revision  : 11/06/24                                  *
 * Comments(s)    : ВОЙНАААААААААААААААААААА                  *
 *************************************************************/
 

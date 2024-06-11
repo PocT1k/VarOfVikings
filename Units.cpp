@@ -92,7 +92,7 @@ HigtUnit::HigtUnit(int numberTeam) : IBaseUnit(numberTeam) {
 
 void HigtUnit::upgrade() {
 	if (mod != 0) { return; } //Уже улучшен
-	mod = rand() % 4 + 1; // от 1 до 4
+	mod = (rand() % 4) + 1; // от 1 до 4
 
 	switch (mod) {
 	case 1: //Улучшение здоровья

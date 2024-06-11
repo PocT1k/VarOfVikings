@@ -142,27 +142,50 @@ void Team::print() {
     cout << "(" << count << ")" << endl;
 }
 
-void Team::deleteDead() {
+void Team::deleteDeads() {
     int i = 0;
     for (auto it = units.begin(); it != units.end();) { //Перебираем итераторы в списке
         if (!(*it)->getHealth()) { // 0 => воин умер, иначе любое ненулевое значение => воин жив
+
             it = units.erase(it);
             lenTeam--;
             if (i < ptrShield) { //Передвижение щита
                 ptrShield--;
             }
-            else if (i == ptrShield && lenShield > 0) { //Уменьшение щита
+            else if (i >= ptrShield && i < ptrShield + lenShield && lenShield > 0) { //Уменьшение щита
                 lenShield--;
             }
         }
         else {
             it++;
             i++;
-        }
-    }
+
+        } //if 0
+    } //for
 }
 
-void Team::moveMagic() {
+void Team::deleteUnit(int num) {
+    int i = 0;
+    for (auto it = units.begin(); it != units.end();) { //Перебираем итераторы в списке
+        if (i == num) {
+
+            units.erase(it);
+            lenTeam--;
+            if (i < ptrShield) { //Передвижение щита
+                ptrShield--;
+            }
+            else if (i >= ptrShield && i < ptrShield + lenShield && lenShield > 0) { //Уменьшение щита
+                lenShield--;
+            }
+            return;
+
+        } //if num
+        it++;
+        i++;
+    } //for
+}
+
+void Team::moveMagic12() {
     bool vasCopy = false; //Копирование уже было за ход
     bool nearL = false;
     int index = 0;
@@ -178,7 +201,7 @@ void Team::moveMagic() {
             }
 
             if (nearL && !vasCopy) { //Копирование
-                if (unit->chanceUseAbility * 10000 > rand() % 10000 ? true : false) { //Шанс копирования
+                if (unit->chanceUseAbility * 1000 > rand() % 1000 ? true : false) { //Шанс копирования
                     auto position = units.begin() + index;
                     units.insert(position + rand() % 2, make_shared<LowUnit>(unit->numberTeam)); //Вставка перед или после (возле) позиции мага
                     if (logStream != nullptr) { (*logStream) << " C " << unit->getName() << " из к" << numberTeam << " скопировал Лёгкого воина" << endl; }
@@ -192,7 +215,7 @@ void Team::moveMagic() {
     } //for
 }
 
-void Team::UpgradeHigt1() {
+void Team::UpgradeHigt12() {
     bool nearL = false;
     int index = 0;
 
@@ -219,7 +242,25 @@ void Team::UpgradeHigt1() {
     } //for
 }
 
+void Team::moveMagic3() {
+    return;
+}
+
+void Team::UpgradeHigt3() {
+    return;
+}
+
 void Team::move0(Team& enemies) {
+    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
+
+    int var = rand() % (lenTeam + 1); //от 0 до lenTeam (lenTeam уже за прелелами массива)
+
+    if (var != lenTeam) {
+        deleteUnit(var);
+    }
+}
+
+void Team::move1(Team& enemies) {
     if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
 
     int fullDamage = 0;
@@ -253,11 +294,11 @@ void Team::move0(Team& enemies) {
         units[0]->takeHealth(fullHealth);
     }
 
-    moveMagic();
-    UpgradeHigt1();
+    moveMagic12();
+    UpgradeHigt12();
 }
 
-void Team::move1(Team& enemies) {
+void Team::move2(Team& enemies) {
     if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
     int iMax = min(lenTeam, enemies.lenTeam) - 1; //Какая минимальная длинна команды, считая от 0
 
@@ -305,11 +346,10 @@ void Team::move1(Team& enemies) {
     }
     index = 0;
 
-    moveMagic();
-    UpgradeHigt1();
+    moveMagic12();
+    UpgradeHigt12();
 }
 
-void Team::move2(Team& enemies) {
-    if (lenTeam == 0 || enemies.lenTeam == 0) { return; } //Проверка на наличие воинов в команде
-    void;
+void Team::move3(Team& enemies) {
+    return;
 }

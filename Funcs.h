@@ -15,7 +15,7 @@
 using namespace std;
 
 
-#define COUNT_OF_STRATEG 3
+#define COUNT_OF_STRATEG 4
 #define COUNT_OF_STREAM 3
 
 #define kESC 27

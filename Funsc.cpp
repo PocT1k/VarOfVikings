@@ -5,10 +5,10 @@
 extern int startMoney;
 int standartMoney = startMoney;
 //strateg
-unsigned int typeStrateg = 0;
-string arrStrategNames[COUNT_OF_STRATEG] = { "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку рандомно" };
+int typeStrateg = 1;
+string arrStrategNames[COUNT_OF_STRATEG] = { "Фиктивная", "Первый хуярит первого", "Стенка на стенку по порядку", "Стенка на стенку по 3" };
 //stream
-unsigned int logStreamNumber = 0;
+int logStreamNumber = 0;
 string arrLogStreamNames[COUNT_OF_STREAM] = { "файл", "консоль", "никуда" };
 ofstream fout("logs.txt");
 ostream* arrLogStreams[COUNT_OF_STREAM] = { &fout, &cout, nullptr };
@@ -76,10 +76,10 @@ void editStrateg() {
     menuClear();
     cout << "3 Изменение типа стратегии игры" << endl;
     cout << endl;
-    cout << "Текущее стратегия №" << typeStrateg + 1 << " (" << arrStrategNames[typeStrateg] << ")" << endl;
+    cout << "Текущее стратегия №" << typeStrateg << " (" << arrStrategNames[typeStrateg] << ")" << endl;
     cout << endl;
     cout << "Выберите новую стратегию (нажмите соотвествующую клавишу):" << endl;
-    for (int i = 0; i < COUNT_OF_STRATEG; i++) { cout << i + 1 << " " << arrStrategNames[i] << endl; } //Печать для вфыбора
+    for (int i = 0; i < COUNT_OF_STRATEG; i++) { if (i == 0) { continue; } cout << i << " " << arrStrategNames[i] << endl; } //Печать для вфыбора
 
     char key;
     bool run = 1;
@@ -94,17 +94,21 @@ void editStrateg() {
             cout << "Изменение типа стратегии игры отменено" << endl;
             goto end;
             break;
-        case k1:
+        case k0:
             run = 0;
             typeStrateg = 0;
             break;
-        case k2:
+        case k1:
             run = 0;
             typeStrateg = 1;
             break;
-        case k3:
+        case k2:
             run = 0;
             typeStrateg = 2;
+            break;
+        case k3:
+            run = 0;
+            typeStrateg = 3;
             break;
         default:
             goto start;
@@ -113,7 +117,7 @@ void editStrateg() {
 
     } //while
     cout << endl;
-    cout << "Выбран тип стратегии №" << typeStrateg + 1 << " (" << arrStrategNames[typeStrateg] << ")" << endl;
+    cout << "Выбран тип стратегии №" << typeStrateg << " (" << arrStrategNames[typeStrateg] << ")" << endl;
 end:
     return;
 }
@@ -190,17 +194,20 @@ void runSimulation() {
 
     unsigned int motion = 0; //Номер хода
     while (team1.lenTeam != 0 && team2.lenTeam != 0) { //Цикл боя
+        //*******
         { //Ход, удаление мёртвых в конце
             switch (typeStrateg) {
             case 0: team1.move0(team2); break;
             case 1: team1.move1(team2); break;
             case 2: team1.move2(team2); break;
+            case 3: team1.move3(team2); break;
             default: break;
             }
             switch (typeStrateg) {
-            case 0: team2.move0(team1); break;
-            case 1: team2.move1(team1); break;
-            case 2: team2.move2(team1); break;
+            case 0: team1.move0(team2); break;
+            case 1: team1.move1(team2); break;
+            case 2: team1.move2(team2); break;
+            case 3: team1.move3(team2); break;
             default: break;
             }
 
@@ -213,12 +220,14 @@ void runSimulation() {
             timeSleep();
 
             //Удаление мёртвых
-            team1.deleteDead();
-            team2.deleteDead();
+            team1.deleteDeads();
+            team2.deleteDeads();
         } //Ход, удаление мёртвых в конце
+        //*******
 
-        /******* Сверху бойцы удаляются после хода обоих команд, снизу - сразу после хода одной команды *******/
+        //******* Сверху бойцы удаляются после хода обоих команд, снизу - сразу после хода одной команды *******//
 
+        //*******
         //{ //Ход, удаление мёртвых сразу
         //    cout << ++motion << " ход: " << endl;
         //    if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
@@ -227,25 +236,28 @@ void runSimulation() {
         //    case 0: team1.move0(team2); break;
         //    case 1: team1.move1(team2); break;
         //    case 2: team1.move2(team2); break;
+        //    case 3: team1.move3(team2); break;
         //    default: break;
         //    }
         //    team2.print();
         //    timeSleep();
-        //    team2.deleteDead();
+        //    team2.deleteDeads();
 
         //    switch (typeStrateg) {
-        //    case 0: team2.move0(team1); break;
-        //    case 1: team2.move1(team1); break;
-        //    case 2: team2.move2(team1); break;
+        //    case 0: team1.move0(team2); break;
+        //    case 1: team1.move1(team2); break;
+        //    case 2: team1.move2(team2); break;
+        //    case 3: team1.move3(team2); break;
         //    default: break;
         //    }
         //    team1.print();
         //    timeSleep();
-        //    team1.deleteDead();
+        //    team1.deleteDeads();
         //} //Ход, удаление мёртвых сразу
+        //*******
     }
-    team1.deleteDead();
-    team2.deleteDead();
+    team1.deleteDeads();
+    team2.deleteDeads();
 
     if (team1.lenTeam == 0 && team2.lenTeam == 0) {
         cout << endl << endl << "Обе команы полностью убили друг друга" << endl;
