@@ -191,6 +191,7 @@ void runSimulation() {
 
     unsigned int motion = 0; //Номер хода
     while (team1.lenTeam != 0 && team2.lenTeam != 0) { //Цикл боя
+
         //{ //Ход, удаление мёртвых в конце
         //    switch (typeStrateg) {
         //    case 0: team1.move0(team2); break;
@@ -221,6 +222,7 @@ void runSimulation() {
 
         /******* Сверху бойцы удаляются после хода обоих команд, снизу - сразу после хода одной команды *******/
 
+
         { //Ход, удаление мёртвых сразу
             cout << ++motion << " ход: " << endl;
             if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
@@ -245,6 +247,7 @@ void runSimulation() {
             timeSleep();
             team1.deleteDead();
         } //Ход, удаление мёртвых сразу
+
     }
     team1.deleteDead();
     team2.deleteDead();
