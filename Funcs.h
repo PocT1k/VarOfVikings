@@ -41,7 +41,7 @@ void menuClear();
 void editMoney();
 void editStrateg();
 void editStream();
-void outInfo();
+void outInfo(void);
 void runSimulation();
 
 

@@ -6,7 +6,7 @@ void playDeadSound() {
 }
 
 void timeSleep(int milliseconds) {
-	this_thread::sleep_for(chrono::milliseconds(milliseconds));
+	//this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 
 
@@ -92,8 +92,8 @@ HigtUnit::HigtUnit(int numberTeam) : IBaseUnit(numberTeam) {
 
 void HigtUnit::upgrade() {
 	if (mod != 0) { return; } //Уже улучшен
-
 	mod = rand() % 4 + 1; // от 1 до 4
+
 	switch (mod) {
 	case 1: //Улучшение здоровья
 		health = health + health * 0.5;
@@ -109,6 +109,7 @@ void HigtUnit::upgrade() {
 		chanceDodge = 0.25;
 		break;
 	}
+
 	if (logStream != nullptr) { (*logStream) << " U " << "Тяжёлый" << " из к" << numberTeam << " улучшился до " << getName() << endl; }
 }
 

@@ -163,32 +163,37 @@ void Team::deleteDead() {
 }
 
 void Team::moveMagic() {
-    bool copy = false;
+    bool vasCopy = false; //Копирование уже было за ход
+    bool nearL = false;
     int index = 0;
 
     for (index = 0; index < lenTeam; index++) {
         auto unit = units[index];
 
         if (unit->type == 'c') {
+
             for (int i = index - unit->lenUse; i < 1 + index + unit->lenUse; i++) { //Проверяем воинов рядом в зоне действия и ищем лёгкого
                 if (i == index || i < 0 || i > lenTeam - 1) { continue; } //Проверка на выход массива
-                if (!copy && units[i]->type == 'l') { //Если нашли Лёгкого воина рядом и раньше не было копирования за ход
-                    copy = unit->chanceUseAbility * 10000 > rand() % 10000 ? true : false; //Прокаем шанс на копирование
+                if (units[i]) { nearL = true; } //Нашли лёгкого воина рядом
+            }
+
+            if (nearL && !vasCopy) { //Копирование
+                if (unit->chanceUseAbility * 10000 > rand() % 10000 ? true : false) { //Шанс копирования
+                    auto position = units.begin() + index;
+                    units.insert(position + rand() % 2, make_shared<LowUnit>(unit->numberTeam)); //Вставка перед или после (возле) позиции мага
+                    if (logStream != nullptr) { (*logStream) << " C " << unit->getName() << " из к" << numberTeam << " скопировал Лёгкого воина" << endl; }
+                    lenTeam++;
+                    index++;
                 }
             }
-            if (copy) { //Копируем и вставляем в случае удачи
-                auto position = units.begin() + index;
-                units.insert(position + rand() % 2, make_shared<LowUnit>(unit->numberTeam)); //Вставка перед или после (возле) позиции мага
-                if (logStream != nullptr) { (*logStream) << " C " << unit->getName() << " из к" << numberTeam << " скопировал Лёгкого воина" << endl; }
-                lenTeam++;
-                index++;
-            }
-        }
-    }
+            nearL = false;
+
+        } //if -c
+    } //for
 }
 
 void Team::UpgradeHigt1() {
-    bool upgrade = false;
+    bool nearL = false;
     int index = 0;
 
     for (index = 0; index < lenTeam; index++) {
@@ -196,14 +201,22 @@ void Team::UpgradeHigt1() {
 
         if (unit->type == 'h') {
             if (unit->mod == 0) { //Если улучшения нет
-                upgrade = unit->chanceUseAbility * 100 > rand() % 100 ? true : false; //Шанс улучшения
-                if (upgrade) {
-                    unit->upgrade();
+
+                for (int i = index - 1; i < 1 + index + 1; i++) { //Проверяем воинов рядом в зоне действия и ищем лёгкого
+                    if (i == index || i < 0 || i > lenTeam - 1) { continue; } //Проверка на выход массива
+                    if (units[i]) { nearL = true; } //Нашли лёгкого воина рядом
                 }
-                upgrade = false;
+
+                if (nearL) { //Улучшение
+                    if (unit->chanceUseAbility * 100 > rand() % 100 ? true : false) { //Шанс улучшения
+                        unit->upgrade();
+                    }
+                }
+                nearL = false;
             }
-        }
-    }
+
+        } //if -h
+    } //for
 }
 
 void Team::move0(Team& enemies) {

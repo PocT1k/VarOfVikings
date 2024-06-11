@@ -165,8 +165,7 @@ end:
     return;
 }
 
-void outInfo() { //TONOTDO
-    void;
+void outInfo(void) { //TONOTDO
     switch (rand()) {
     case 1367:
         cout << "\7ООО\nПовезло, повезло" << endl;
@@ -191,63 +190,59 @@ void runSimulation() {
 
     unsigned int motion = 0; //Номер хода
     while (team1.lenTeam != 0 && team2.lenTeam != 0) { //Цикл боя
-
-        //{ //Ход, удаление мёртвых в конце
-        //    switch (typeStrateg) {
-        //    case 0: team1.move0(team2); break;
-        //    case 1: team1.move1(team2); break;
-        //    case 2: team1.move2(team2); break;
-        //    default: break;
-        //    }
-        //    switch (typeStrateg) {
-        //    case 0: team2.move0(team1); break;
-        //    case 1: team2.move1(team1); break;
-        //    case 2: team2.move2(team1); break;
-        //    default: break;
-        //    }
-
-        //    //Результаты
-        //    cout << ++motion << " ход: " << endl;
-        //    if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
-        //    team1.print();
-        //    timeSleep();
-        //    team2.print();
-        //    timeSleep();
-
-        //    //Удаление мёртвых
-        //    team1.deleteDead();
-        //    team2.deleteDead();
-        //} //Ход, удаление мёртвых в конце
-
-
-        /******* Сверху бойцы удаляются после хода обоих команд, снизу - сразу после хода одной команды *******/
-
-
-        { //Ход, удаление мёртвых сразу
-            cout << ++motion << " ход: " << endl;
-            if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
-
+        { //Ход, удаление мёртвых в конце
             switch (typeStrateg) {
             case 0: team1.move0(team2); break;
             case 1: team1.move1(team2); break;
             case 2: team1.move2(team2); break;
             default: break;
             }
-            team2.print();
-            timeSleep();
-            team2.deleteDead();
-
             switch (typeStrateg) {
             case 0: team2.move0(team1); break;
             case 1: team2.move1(team1); break;
             case 2: team2.move2(team1); break;
             default: break;
             }
+
+            //Результаты
+            cout << ++motion << " ход: " << endl;
+            if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
             team1.print();
             timeSleep();
-            team1.deleteDead();
-        } //Ход, удаление мёртвых сразу
+            team2.print();
+            timeSleep();
 
+            //Удаление мёртвых
+            team1.deleteDead();
+            team2.deleteDead();
+        } //Ход, удаление мёртвых в конце
+
+        /******* Сверху бойцы удаляются после хода обоих команд, снизу - сразу после хода одной команды *******/
+
+        //{ //Ход, удаление мёртвых сразу
+        //    cout << ++motion << " ход: " << endl;
+        //    if (logStream != nullptr && logStream != &cout) { (*logStream) << "ход: " << motion << endl; }
+
+        //    switch (typeStrateg) {
+        //    case 0: team1.move0(team2); break;
+        //    case 1: team1.move1(team2); break;
+        //    case 2: team1.move2(team2); break;
+        //    default: break;
+        //    }
+        //    team2.print();
+        //    timeSleep();
+        //    team2.deleteDead();
+
+        //    switch (typeStrateg) {
+        //    case 0: team2.move0(team1); break;
+        //    case 1: team2.move1(team1); break;
+        //    case 2: team2.move2(team1); break;
+        //    default: break;
+        //    }
+        //    team1.print();
+        //    timeSleep();
+        //    team1.deleteDead();
+        //} //Ход, удаление мёртвых сразу
     }
     team1.deleteDead();
     team2.deleteDead();
